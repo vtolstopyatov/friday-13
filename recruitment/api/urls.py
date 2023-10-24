@@ -1,4 +1,4 @@
-from django.urls import include, path, url
+from django.urls import include, path
 from rest_framework import routers
 from .views import VacancyViewSet
 from drf_yasg import openapi
@@ -25,7 +25,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns += [
-    url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0),
+    path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0),
         name='schema-swagger-ui'),
 ]
 

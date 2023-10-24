@@ -51,6 +51,7 @@ class Vacancy(Params):
         ]
 
 
-class Cv(Params): 
+class Cv(Params):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=("Рекрутер"))
     name = models.CharField(max_length=200, null=False, verbose_name=("Название"))
     optional_description = models.TextField(verbose_name=("Немного о себе"))

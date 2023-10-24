@@ -57,7 +57,7 @@ class VacancyCreateSerializer(serializers.ModelSerializer):
     """Кастомный сериализатор для создания вакансии."""
 
     class Meta:
-        model = Cv
+        model = Vacancy
         fields = (
             "author",
             "name",
@@ -97,7 +97,7 @@ class VacancySerializer(serializers.ModelSerializer):
     """Кастомный сериализатор для работы с вакансией."""
 
     class Meta:
-        model = Cv
+        model = Vacancy
         fields = (
             "author",
             "name",
