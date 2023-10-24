@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from rest_framework.serializers import ValidationError
 
-from .models import Cv, Vacancy
+from vacancies.models import Cv, Vacancy
 
 
 class CvCreateSerializer(serializers.ModelSerializer):
@@ -28,7 +28,7 @@ class CvCreateSerializer(serializers.ModelSerializer):
         if match(r'^[-+]?[0-9]+$', value):
             raise ValidationError("Некорректное название резюме.")
         return value
-    
+
     def create(self, validated_data):
         author = self.context.get('request').user
         cv = Cv.objects.create(author=author, **validated_data)
@@ -52,6 +52,7 @@ class CvSerializer(serializers.ModelSerializer):
             "language",
             "language_level",
         )
+
 
 class VacancyCreateSerializer(serializers.ModelSerializer):
     """Кастомный сериализатор для создания вакансии."""
@@ -86,7 +87,7 @@ class VacancyCreateSerializer(serializers.ModelSerializer):
         if match(r'^[-+]?[0-9]+$', value):
             raise ValidationError("Некорректное название вакансии.")
         return value
-    
+
     def create(self, validated_data):
         author = self.context.get('request').user
         vacancy = Vacancy.objects.create(author=author, **validated_data)

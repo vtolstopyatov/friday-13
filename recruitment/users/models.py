@@ -31,6 +31,7 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 class CustomUser(AbstractUser):
     """Основная модель пользователя."""
 

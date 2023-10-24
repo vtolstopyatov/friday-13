@@ -1,6 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
-from .views import VacancyViewSet
+from .vacancies.views import VacancyViewSet
+from .cities.views import CityViewSet
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -8,7 +9,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 v1_router = routers.DefaultRouter()
 
-v1_router.register('api_v1', VacancyViewSet, basename='vacancy')
+v1_router.register('vacancies', VacancyViewSet, basename='vacancies')
+v1_router.register('cities', CityViewSet, basename='cities')
 
 urlpatterns = [
     path('', include(v1_router.urls)),
@@ -25,8 +27,15 @@ schema_view = get_schema_view(
 )
 
 urlpatterns += [
-    path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0),
-        name='schema-swagger-ui'),
+    path('swagger<format>/',
+         schema_view.without_ui(cache_timeout=0),
+         name='schema-json'),
+    path('swagger/', schema_view.with_ui(
+         'swagger', cache_timeout=0),
+         name='schema-swagger-ui',),
+    path('redoc/',
+         schema_view.with_ui('redoc', cache_timeout=0),
+         name='schema-redoc'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
