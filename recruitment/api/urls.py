@@ -8,7 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 v1_router = routers.DefaultRouter()
 
-v1_router.register('recipes', VacancyViewSet, basename='vacancy')
+v1_router.register('api_v1', VacancyViewSet, basename='vacancy')
 
 urlpatterns = [
     path('', include(v1_router.urls)),
