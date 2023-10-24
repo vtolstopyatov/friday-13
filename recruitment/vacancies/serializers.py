@@ -1,17 +1,12 @@
-import base64
 from re import match
+from rest_framework import serializers
 
-from django.conf import settings
-from django.core.files.base import ContentFile
-from djoser.serializers import UserCreateSerializer, UserSerializer
-from rest_framework.serializers import (CurrentUserDefault, HiddenField,
-                                        ImageField, ModelSerializer,
-                                        ValidationError)
+from rest_framework.serializers import ValidationError
 
 from .models import Cv, Vacancy
 
 
-class CvCreateSerializer(UserCreateSerializer):
+class CvCreateSerializer(serializers.ModelSerializer):
     """Кастомный сериализатор для создания резюме."""
 
     class Meta:
@@ -33,9 +28,14 @@ class CvCreateSerializer(UserCreateSerializer):
         if match(r'^[-+]?[0-9]+$', value):
             raise ValidationError("Некорректное название резюме.")
         return value
+    
+    def create(self, validated_data):
+        author = self.context.get('request').user
+        cv = Cv.objects.create(author=author, **validated_data)
+        return cv
 
 
-class CvSerializer(UserSerializer):
+class CvSerializer(serializers.ModelSerializer):
     """Кастомный сериализатор для работы с резюме."""
 
     class Meta:
@@ -53,7 +53,7 @@ class CvSerializer(UserSerializer):
             "language_level",
         )
 
-class VacancyCreateSerializer(UserCreateSerializer):
+class VacancyCreateSerializer(serializers.ModelSerializer):
     """Кастомный сериализатор для создания вакансии."""
 
     class Meta:
@@ -86,9 +86,14 @@ class VacancyCreateSerializer(UserCreateSerializer):
         if match(r'^[-+]?[0-9]+$', value):
             raise ValidationError("Некорректное название вакансии.")
         return value
+    
+    def create(self, validated_data):
+        author = self.context.get('request').user
+        vacancy = Vacancy.objects.create(author=author, **validated_data)
+        return vacancy
 
 
-class CvSerializer(UserSerializer):
+class VacancySerializer(serializers.ModelSerializer):
     """Кастомный сериализатор для работы с вакансией."""
 
     class Meta:
