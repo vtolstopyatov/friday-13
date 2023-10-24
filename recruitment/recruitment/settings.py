@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     
     # lib
     'django_filters',
+    'drf_yasg',
     
     # custom app
     'users.apps.UsersConfig',
