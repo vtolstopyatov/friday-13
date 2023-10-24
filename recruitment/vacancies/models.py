@@ -1,3 +1,5 @@
+import recruitment.settings as ch
+
 from django.db import models
 from django.db.models import CheckConstraint, Q, F
 from django.contrib.auth import get_user_model
@@ -8,14 +10,23 @@ User = get_user_model()
 def get_sentinel_user():
     return User.objects.get_or_create(username="deleted")[0]
 
+class Params(models.Model):
+    province = models.CharField(max_length=15, verbose_name=("Город"))  # ждём, что фронт скажет, можно связать с моделью регионов https://simplemaps.com/data/ru-cities
+    grade = models.CharField(max_length=2, choices=ch.GRADE, verbose_name=("Грейд"))
+    is_remote_work = models.BooleanField(default=False, verbose_name=("Удалёнка"))
+    min_wage = models.PositiveIntegerField(blank=True, null=True, verbose_name=("Доход от"))
+    max_wage = models.PositiveIntegerField(blank=True, null=True, verbose_name=("Доход до"))
+    experience = models.CharField(max_length=5, choices=ch.EXP, verbose_name=("Опыт работы"))  # узнать CHOICES у дизайнеров и поменять
+    currency = models.CharField(max_length=5, choices=ch.CURRENCY, verbose_name=("Валюта"))  # узнать CHOICES у дизайнеров и поменять
+    language = models.CharField(max_length=2, choices=ch.LAN, verbose_name=("Знание языка"))  # узнать CHOICES у дизайнеров и поменять
+    language_level = models.CharField(max_length=2, choices=ch.LAN_LVL, verbose_name=("Уровень языка"))
 
-class Vacancy(models.Model):
+    class Meta:
+        abstract = True
+
+
+class Vacancy(Params):
     '''Модель вакансий.'''
-    CHOICES = [
-        ("JR", "Junior"),
-        ("MD", "Middle"),
-        ("SR", "Senior"),
-    ]
     # уточнить обязательные поля у дизайнеров
     # проверка полей wage_gt wage_lt
     # проверка полей is_active is_archive
@@ -30,16 +41,6 @@ class Vacancy(models.Model):
     is_active = models.BooleanField(default=True, verbose_name=("Опубликована"))
     is_archive = models.BooleanField(default=False, verbose_name=("Архивная"))
     created = models.DateTimeField(auto_now_add=True)
-    # ↓ пересекаются с резюме. Разбить все на отдельные модели? Вынести в другую и наследоваться? ↓ 
-    province = models.CharField(verbose_name=("Город"))  # ждём, что фронт скажет, можно связать с моделью регионов https://simplemaps.com/data/ru-cities
-    grade = models.CharField(choices=CHOICES, verbose_name=("Грейд"))
-    is_remote_work = models.BooleanField(default=False, verbose_name=("Удалёнка"))
-    min_wage = models.PositiveIntegerField(blank=True, null=True, verbose_name=("Доход от"))
-    max_wage = models.PositiveIntegerField(blank=True, null=True, verbose_name=("Доход до"))
-    experience = models.CharField(choices=CHOICES, verbose_name=("Опыт работы"))  # узнать CHOICES у дизайнеров и поменять
-    currency = models.CharField(choices=CHOICES, verbose_name=("Валюта"))  # узнать CHOICES у дизайнеров и поменять
-    language = models.CharField(choices=CHOICES, verbose_name=("Знание языка"))  # узнать CHOICES у дизайнеров и поменять
-    language_level = models.CharField(choices=CHOICES, verbose_name=("Уровень языка"))  # узнать CHOICES у дизайнеров и поменять
 
     class Meta:
         constraints = [
@@ -48,3 +49,8 @@ class Vacancy(models.Model):
                 name='check_min_wage_less_than_max_wage',
             ),
         ]
+
+
+class Cv(Params): 
+    name = models.CharField(max_length=200, null=False, verbose_name=("Название"))
+    optional_description = models.TextField(verbose_name=("Немного о себе"))

@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     
     # custom app
     'users.apps.UsersConfig',
-    'aopi.apps.ApiConfig',
+    'api.apps.ApiConfig',
+    'vacancies.apps.VacanciesConfig',
 ]
 
 MIDDLEWARE = [
@@ -148,3 +149,40 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = "users.CustomUser"
+
+GRADE = [
+        ("IN", "Intern"),
+        ("JR", "Junior"),
+        ("MD", "Middle"),
+        ("SR", "Senior"),
+        ("LD", "Lead"),
+    ]
+
+EXP = [
+        ("LOW", "0"),
+        ("MED", "1-3"),
+        ("HI", "3-6"),
+        ("HIP", "6+"),
+    ]
+
+CURRENCY = [
+        ("RUB", "₽"),
+        ("DOL", "$"),
+        ("EURO", "€"),
+        ("UAH", "₴"),
+    ]
+
+LAN = [
+        ("RU", "Русский"),
+        ("EU", "English"),
+        ("UA", "Украинский"),
+    ]
+
+LAN_LVL = [
+        ("A1", ""),
+        ("A2", ""),
+        ("B1", ""),
+        ("B2", ""),
+        ("C1", ""),
+        ("C2", ""),
+    ]
