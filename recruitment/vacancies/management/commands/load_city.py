@@ -5,7 +5,7 @@ from vacancies.models import City
 
 
 class Command(BaseCommand):
-    '''Загружает ингредиенты в БД из ingredients.json файла.'''
+    '''Загружает города в БД из towns.csv файла.'''
 
     def handle(self, *args, **options):
         with open('data/towns.csv', newline='', encoding='utf-8') as f:
