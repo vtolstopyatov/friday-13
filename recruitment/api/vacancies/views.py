@@ -2,8 +2,7 @@ from rest_framework import viewsets
 
 from vacancies.models import Cv, Vacancy
 from .serializers import (CvCreateSerializer, CvSerializer,
-                          VacancySerializer,
-                          VacancyCreateSerializer,)
+                          VacancySerializer,)
 
 
 class CvViewSet(viewsets.ModelViewSet):
@@ -22,7 +21,7 @@ class VacancyViewSet(viewsets.ModelViewSet):
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
 
-    def get_serializer_class(self):
-        if self.action in ('list', 'retrieve'):
-            return VacancySerializer
-        return VacancyCreateSerializer
+    # def get_serializer_class(self):
+    #     if self.action in ('list', 'retrieve'):
+    #         return VacancySerializer
+    #     return VacancyCreateSerializer

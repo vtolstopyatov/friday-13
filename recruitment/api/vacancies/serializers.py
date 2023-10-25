@@ -3,7 +3,19 @@ from rest_framework import serializers
 
 from rest_framework.serializers import ValidationError
 
-from vacancies.models import Cv, Vacancy
+from vacancies.models import Cv, Vacancy, LanguageLevel
+
+
+class LanguageLevelSerializer(serializers.ModelSerializer):
+    id = serializers.PrimaryKeyRelatedField(
+        queryset=LanguageLevel.objects.all(),
+        source='language.id',
+    )
+    language = serializers.ReadOnlyField(source='language.language')
+
+    class Meta:
+        model = LanguageLevel
+        fields = ['id', 'language', 'level']
 
 
 class CvCreateSerializer(serializers.ModelSerializer):
@@ -20,8 +32,6 @@ class CvCreateSerializer(serializers.ModelSerializer):
             "max_wage",
             "experience",
             "currency",
-            "language",
-            "language_level",
         )
 
     def validate_name_cv(self, value):
@@ -49,13 +59,13 @@ class CvSerializer(serializers.ModelSerializer):
             "max_wage",
             "experience",
             "currency",
-            "language",
-            "language_level",
         )
 
 
-class VacancyCreateSerializer(serializers.ModelSerializer):
-    """Кастомный сериализатор для создания вакансии."""
+class VacancySerializer(serializers.ModelSerializer):
+    """Сериализатор для вакансий."""
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
+    language = LanguageLevelSerializer(many=True)
 
     class Meta:
         model = Vacancy
@@ -80,7 +90,6 @@ class VacancyCreateSerializer(serializers.ModelSerializer):
             "experience",
             "currency",
             "language",
-            "language_level",
         )
 
     def validate_name_cv(self, value):
@@ -94,31 +103,30 @@ class VacancyCreateSerializer(serializers.ModelSerializer):
         return vacancy
 
 
-class VacancySerializer(serializers.ModelSerializer):
-    """Кастомный сериализатор для работы с вакансией."""
+# class VacancySerializer(serializers.ModelSerializer):
+#     """Кастомный сериализатор для работы с вакансией."""
 
-    class Meta:
-        model = Vacancy
-        fields = (
-            "author",
-            "name",
-            "description",
-            "requirements",
-            "experience",
-            "optional_requirements",
-            "responsibility",
-            "conditions",
-            "selection_stages",
-            "is_active",
-            "is_archive",
-            "created",
+#     class Meta:
+#         model = Vacancy
+#         fields = (
+#             "author",
+#             "name",
+#             "description",
+#             "requirements",
+#             "experience",
+#             "optional_requirements",
+#             "responsibility",
+#             "conditions",
+#             "selection_stages",
+#             "is_active",
+#             "is_archive",
+#             "created",
 
-            "province",
-            "is_remote_work",
-            "min_wage",
-            "max_wage",
-            "experience",
-            "currency",
-            "language",
-            "language_level",
-        )
+#             "province",
+#             "is_remote_work",
+#             "min_wage",
+#             "max_wage",
+#             "experience",
+#             "currency",
+#             "language",
+#         )

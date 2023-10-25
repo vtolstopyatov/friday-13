@@ -1,7 +1,7 @@
 import recruitment.settings as ch
 
 from django.db import models
-from django.db.models import CheckConstraint, Q, F
+from django.db.models import CheckConstraint, UniqueConstraint, Q, F
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -17,6 +17,10 @@ class City(models.Model):
     country = models.CharField(max_length=50, verbose_name='Страна')
 
 
+class Language(models.Model):
+    language = models.CharField(max_length=50, verbose_name='Язык')
+
+
 class Params(models.Model):
     grade = models.CharField(max_length=2, choices=ch.GRADE, verbose_name=("Грейд"))
     is_remote_work = models.BooleanField(default=False, verbose_name=("Удалёнка"))
@@ -24,8 +28,6 @@ class Params(models.Model):
     max_wage = models.PositiveIntegerField(verbose_name=("Доход до"))
     experience = models.CharField(max_length=5, choices=ch.EXP, verbose_name=("Опыт работы"))  # узнать CHOICES у дизайнеров и поменять
     currency = models.CharField(max_length=5, choices=ch.CURRENCY, verbose_name=("Валюта"))  # узнать CHOICES у дизайнеров и поменять
-    language = models.CharField(max_length=2, choices=ch.LAN, verbose_name=("Знание языка"))  # узнать CHOICES у дизайнеров и поменять
-    language_level = models.CharField(max_length=2, choices=ch.LAN_LVL, verbose_name=("Уровень языка"))
 
     class Meta:
         abstract = True
@@ -55,6 +57,23 @@ class Vacancy(Params):
                 name='check_min_wage_less_than_max_wage',
             ),
         ]
+
+
+class LanguageLevel(models.Model):
+    LANG_LVL = [
+        ("A1", "A1"),
+        ("A2", "A2"),
+        ("B1", "B1"),
+        ("B2", "B2"),
+        ("C1", "C1"),
+        ("C2", "C2"),
+    ]
+    language = models.ForeignKey(Language, on_delete=models.CASCADE)
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='language')
+    level = models.CharField(max_length=2, choices=LANG_LVL)
+
+    class Meta:
+        unique_together = ('language', 'vacancy', 'level')
 
 
 class Cv(Params):
