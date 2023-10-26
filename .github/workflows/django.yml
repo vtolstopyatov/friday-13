@@ -10,7 +10,7 @@ jobs:
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Login to Docker 
         uses: docker/login-action@v3 
@@ -26,7 +26,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@v1.0.0
@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd foodgram/infra
+            cd friday/infra
             sudo docker-compose stop
             touch .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
