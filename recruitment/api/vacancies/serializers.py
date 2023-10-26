@@ -11,7 +11,7 @@ class LanguageLevelSerializer(serializers.ModelSerializer):
         queryset=LanguageLevel.objects.all(),
         source='language.id',
     )
-    language = serializers.ReadOnlyField(source='language.language')
+    language = serializers.ReadOnlyField(source='student.language')
 
     class Meta:
         model = LanguageLevel
@@ -27,7 +27,6 @@ class CvCreateSerializer(serializers.ModelSerializer):
             "name",
             "optional_description",
             "province",
-            "is_remote_work",
             "min_wage",
             "max_wage",
             "experience",
@@ -54,7 +53,6 @@ class CvSerializer(serializers.ModelSerializer):
             "name",
             "optional_description",
             "province",
-            "is_remote_work",
             "min_wage",
             "max_wage",
             "experience",
@@ -84,7 +82,6 @@ class VacancySerializer(serializers.ModelSerializer):
             "created",
 
             "province",
-            "is_remote_work",
             "min_wage",
             "max_wage",
             "experience",
@@ -123,7 +120,6 @@ class VacancySerializer(serializers.ModelSerializer):
 #             "created",
 
 #             "province",
-#             "is_remote_work",
 #             "min_wage",
 #             "max_wage",
 #             "experience",

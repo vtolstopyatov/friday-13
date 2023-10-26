@@ -2,6 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 from .vacancies.views import VacancyViewSet
 from .cities.views import CityViewSet
+from .applicants.views import ApplicantViewSet
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
@@ -11,6 +12,7 @@ v1_router = routers.DefaultRouter()
 
 v1_router.register('vacancies', VacancyViewSet, basename='vacancies')
 v1_router.register('cities', CityViewSet, basename='cities')
+v1_router.register('applicants', ApplicantViewSet, basename='applicants')
 
 urlpatterns = [
     path('', include(v1_router.urls)),
