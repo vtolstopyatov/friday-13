@@ -27,7 +27,8 @@ class Params(models.Model):
     min_wage = models.PositiveIntegerField(verbose_name=("Доход от"))
     max_wage = models.PositiveIntegerField(verbose_name=("Доход до"))
     experience = models.CharField(max_length=5, choices=ch.EXP, verbose_name=("Опыт работы"))  # узнать CHOICES у дизайнеров и поменять
-    currency = models.CharField(max_length=5, choices=ch.CURRENCY, verbose_name=("Валюта"))  # узнать CHOICES у дизайнеров и поменять
+    currency = models.CharField(max_length=5, choices=ch.CURRENCY, verbose_name=("Валюта"))
+    lang = models.ForeignKey(Language, on_delete=models.PROTECT, verbose_name=("Язык"))  # узнать CHOICES у дизайнеров и поменять
 
     class Meta:
         abstract = True
@@ -37,9 +38,9 @@ class Vacancy(Params):
     '''Модель вакансий.'''
     # уточнить обязательные поля у дизайнеров
     # проверка полей is_active is_archive
-    province = models.ForeignKey(City, on_delete=models.PROTECT, related_name='vacancy', verbose_name='Город')
+    title = models.CharField(max_length=200, null=False, verbose_name=("Название"))
+    city = models.ForeignKey(City, on_delete=models.PROTECT, related_name='vacancy', verbose_name='Город')
     author = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user), verbose_name=("Рекрутер"))  # лучше чтобы вакансия осталась у студентов при удалении рекрутера. Протестировать это
-    name = models.CharField(max_length=200, null=False, verbose_name=("Название"))
     description = models.TextField(verbose_name=("Подробности"))
     requirements = models.TextField(verbose_name=("Требования"))
     optional_requirements = models.TextField(verbose_name=("Необязательные требования"))
@@ -77,7 +78,7 @@ class LanguageLevel(models.Model):
 
 
 class Cv(Params):
-    province = models.ForeignKey(City, on_delete=models.PROTECT, related_name='cv', verbose_name='Город')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=("Рекрутер"))
+    city = models.ForeignKey(City, on_delete=models.PROTECT, related_name='cv', verbose_name='Город')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=("Соискатель"))
     name = models.CharField(max_length=200, null=False, verbose_name=("Название"))
     optional_description = models.TextField(verbose_name=("Немного о себе"))
