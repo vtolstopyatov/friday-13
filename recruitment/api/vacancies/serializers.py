@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from rest_framework.serializers import ValidationError
 
-from vacancies.models import Cv, Vacancy, LanguageLevel
+from vacancies.models import Cv, Vacancy, LanguageLevel, Expirience
 
 
 class LanguageLevelSerializer(serializers.ModelSerializer):
@@ -24,11 +24,10 @@ class CvCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cv
         fields = (
-            "name",
+            "title",
             "optional_description",
-            "province",
-            "min_wage",
-            "max_wage",
+            "city",
+            "salary",
             "experience",
             "currency",
         )
@@ -50,11 +49,10 @@ class CvSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cv
         fields = (
-            "name",
+            "title",
             "optional_description",
-            "province",
-            "min_wage",
-            "max_wage",
+            "city",
+            "salary",
             "experience",
             "currency",
         )
@@ -81,10 +79,9 @@ class VacancySerializer(serializers.ModelSerializer):
             "is_archive",
             "created",
 
-            "province",
+            "city",
             "min_wage",
             "max_wage",
-            "experience",
             "currency",
             "language",
         )

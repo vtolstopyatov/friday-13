@@ -8,7 +8,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
     last_name = serializers.ReadOnlyField(source='student.last_name')
     avatar_url = serializers.ImageField(source='student.userpic', read_only=True, use_url=True)
     course = serializers.ReadOnlyField(source='course.name')
-    city = serializers.ReadOnlyField(source='province.name')
+    city = serializers.ReadOnlyField(source='city.name')
     response_count = serializers.SerializerMethodField()
     test_task_count = serializers.SerializerMethodField()
     interview_count = serializers.SerializerMethodField()
