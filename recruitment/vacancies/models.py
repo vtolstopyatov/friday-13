@@ -104,7 +104,7 @@ class Cv(Params):
     city = models.ForeignKey(City, on_delete=models.PROTECT, related_name='cv', verbose_name='Город')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=("Соискатель"))
     optional_description = models.TextField(verbose_name=("Немного о себе"))
-    salary = models.IntegerField(max_length=7)
+    salary = models.IntegerField()
     expirience = models.ForeignKey(Expirience, on_delete=models.PROTECT)
 
 
