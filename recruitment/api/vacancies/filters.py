@@ -1,4 +1,4 @@
-from recruitment.recruitment.settings import GRADE
+from recruitment.settings import GRADE
 from django_filters import rest_framework as filters
 from vacancies.models import Cv, Vacancy
 
