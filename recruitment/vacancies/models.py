@@ -16,6 +16,13 @@ class City(models.Model):
     region = models.CharField(max_length=50, verbose_name='Регион')
     country = models.CharField(max_length=50, verbose_name='Страна')
 
+class Expirience(models.Model):
+    date_start = models.DateField()
+    date_end = models.DateField()
+    duration = models.DurationField()
+    company = models.CharField(max_length=150, verbose_name=("Компания"))
+    title = models.CharField(max_length=150, verbose_name=("Должность"))
+    description = models.CharField(max_length=150, verbose_name=("обязанности"))
 
 class Language(models.Model):
     language = models.CharField(max_length=50, verbose_name='Язык')
@@ -32,14 +39,16 @@ class Params(models.Model):
         (REMOTE, 'Удалённая работа'),
         (FLEX, 'Гибкий график'),
     ]
-    grade = models.CharField(max_length=2, choices=ch.GRADE, verbose_name=("Грейд"))
-    min_wage = models.PositiveIntegerField(verbose_name=("Доход от"))
-    max_wage = models.PositiveIntegerField(verbose_name=("Доход до"))
+    
+    
 
-    experience = models.CharField(max_length=5, choices=ch.EXP, verbose_name=("Опыт работы"))
+    #vacancy
+    
+    grade = models.CharField(max_length=2, choices=ch.GRADE, verbose_name=("Грейд"))
+    lang = models.ForeignKey(Language, on_delete=models.PROTECT, verbose_name=("Язык"))
+    work_format = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("Форма работы"))
+    schedule = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("График работы"))
     currency = models.CharField(max_length=5, choices=ch.CURRENCY, verbose_name=("Валюта"))  # узнать CHOICES у дизайнеров и поменять
-    schedule = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("График"))
-    lang = models.ForeignKey(Language, on_delete=models.PROTECT, verbose_name=("Язык"))  # узнать CHOICES у дизайнеров и поменять
 
     class Meta:
         abstract = True
@@ -49,15 +58,17 @@ class Vacancy(Params):
     '''Модель вакансий.'''
     # уточнить обязательные поля у дизайнеров
     # проверка полей is_active is_archive
+    author = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user), verbose_name=("Рекрутер"))  # лучше чтобы вакансия осталась у студентов при удалении рекрутера. Протестировать это
     title = models.CharField(max_length=200, null=False, verbose_name=("Название"))
     city = models.ForeignKey(City, on_delete=models.PROTECT, related_name='vacancy', verbose_name='Город')
-    author = models.ForeignKey(User, on_delete=models.SET(get_sentinel_user), verbose_name=("Рекрутер"))  # лучше чтобы вакансия осталась у студентов при удалении рекрутера. Протестировать это
     description = models.TextField(verbose_name=("Подробности"))
+    responsibility = models.TextField(verbose_name=("Обязанности"))
     requirements = models.TextField(verbose_name=("Требования"))
     optional_requirements = models.TextField(verbose_name=("Необязательные требования"))
-    responsibility = models.TextField(verbose_name=("Обязанности"))
     conditions = models.TextField(verbose_name=("Условия"))
     selection_stages = models.TextField(verbose_name=("Этапы отбора"))
+    min_wage = models.PositiveIntegerField(verbose_name=("Доход от"))
+    max_wage = models.PositiveIntegerField(verbose_name=("Доход до"))
     is_active = models.BooleanField(default=True, verbose_name=("Опубликована"))
     is_archive = models.BooleanField(default=False, verbose_name=("Архивная"))
     created = models.DateTimeField(auto_now_add=True)
@@ -89,10 +100,12 @@ class LanguageLevel(models.Model):
 
 
 class Cv(Params):
+    title = models.CharField(max_length=200, null=False, verbose_name=("Название"))
     city = models.ForeignKey(City, on_delete=models.PROTECT, related_name='cv', verbose_name='Город')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=("Соискатель"))
-    name = models.CharField(max_length=200, null=False, verbose_name=("Название"))
     optional_description = models.TextField(verbose_name=("Немного о себе"))
+    salary = models.IntegerField(max_length=7)
+    expirience = models.ForeignKey(Expirience, on_delete=models.PROTECT)
 
 
 class Course(models.Model):
@@ -109,6 +122,7 @@ class Applicant(Params):
     age = models.PositiveSmallIntegerField()
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
     graduation_date = models.DateField()
+    contacts = models.CharField(max_length=150)
 
 
 class VacancyResponse(models.Model):
