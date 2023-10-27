@@ -70,7 +70,6 @@ class VacancySerializer(serializers.ModelSerializer):
             "title",
             "description",
             "requirements",
-            "experience",
             "optional_requirements",
             "responsibility",
             "conditions",
