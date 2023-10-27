@@ -67,6 +67,10 @@ class VacancySerializer(serializers.ModelSerializer):
         model = Vacancy
         fields = (
             "author",
+            "grade",
+            "grade",
+            "shedule",
+            "currency"
             "title",
             "description",
             "requirements",
