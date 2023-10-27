@@ -69,7 +69,7 @@ class VacancySerializer(serializers.ModelSerializer):
         fields = (
             "author",
             "grade",
-            "grade",
+            "work_format",
             "shedule",
             "currency"
             "title",
