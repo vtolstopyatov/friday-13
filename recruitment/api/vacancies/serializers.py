@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 
 from vacancies.models import Cv, Vacancy, LanguageLevel, Expirience
-
+from applicants.serializers import ApplicantSerializer
 
 class LanguageLevelSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(
@@ -62,6 +62,7 @@ class VacancySerializer(serializers.ModelSerializer):
     """Сериализатор для вакансий."""
     author = serializers.PrimaryKeyRelatedField(read_only=True)
     language = LanguageLevelSerializer(many=True)
+    applicants = ApplicantSerializer(many=True)
 
     class Meta:
         model = Vacancy
