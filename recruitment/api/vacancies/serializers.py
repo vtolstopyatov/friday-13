@@ -62,13 +62,11 @@ class VacancySerializer(serializers.ModelSerializer):
     """Сериализатор для вакансий."""
     author = serializers.PrimaryKeyRelatedField(read_only=True)
     language = LanguageLevelSerializer(many=True)
-    applicants = ApplicantSerializer(many=True)
 
     class Meta:
         model = Vacancy
         fields = (
             "author",
-            "applicants",
             "grade",
             "work_format",
             "shedule",
