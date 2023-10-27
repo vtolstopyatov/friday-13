@@ -1,4 +1,5 @@
 from django.urls import include, path
+from django.conf.urls import url
 from rest_framework import routers
 from .vacancies.views import VacancyViewSet
 from .cities.views import CityViewSet
@@ -29,13 +30,13 @@ schema_view = get_schema_view(
 )
 
 urlpatterns += [
-    path('swagger<format>/',
+    url('swagger<format>/',
          schema_view.without_ui(cache_timeout=0),
          name='schema-json'),
-    path('swagger/', schema_view.with_ui(
+    url('swagger/', schema_view.with_ui(
          'swagger', cache_timeout=0),
          name='schema-swagger-ui',),
-    path('redoc/',
+    url('redoc/',
          schema_view.with_ui('redoc', cache_timeout=0),
          name='schema-redoc'),
 ]
