@@ -19,7 +19,6 @@ class City(models.Model):
 class Expirience(models.Model):
     date_start = models.DateField()
     date_end = models.DateField()
-    duration = models.DurationField()
     company = models.CharField(max_length=150, verbose_name=("Компания"))
     title = models.CharField(max_length=150, verbose_name=("Должность"))
     description = models.CharField(max_length=150, verbose_name=("обязанности"))
@@ -115,6 +114,7 @@ class Course(models.Model):
         return self.name
 
 
+
 class Applicant(Params):
     EDU_STATUS = [
         (1, 'Студент'),
@@ -134,6 +134,9 @@ class Applicant(Params):
     contacts = models.CharField(max_length=150)
     edu_status = models.PositiveSmallIntegerField(choices=EDU_STATUS)
     work_status = models.PositiveSmallIntegerField(choices=WORK_STATUS)
+    salary = models.IntegerField()
+    optional_description = models.TextField(verbose_name=("Немного о себе"))
+
 
 class VacancyResponse(models.Model):
     STATUS = [
@@ -151,11 +154,10 @@ class VacancyResponse(models.Model):
     ]
     applicant = models.ForeignKey(Applicant, on_delete=models.CASCADE, related_name='vacancy_responses', verbose_name='Соискатель')
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='vacancy_responses', verbose_name='Вакансия')
-    status = models.PositiveSmallIntegerField(choices=STATUS)
+    status = models.PositiveSmallIntegerField(choices=STATUS, )
 
     class Meta:
         unique_together = ('applicant', 'vacancy')
-
 
 class TestTask(models.Model):  # возможно удаляем, заменяется VacancyResponse, фикс сериалайзеров
     applicant = models.ForeignKey(Applicant, on_delete=models.CASCADE, related_name='vacancy_test_tasks', verbose_name='Соискатель')

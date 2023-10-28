@@ -5,7 +5,6 @@ from rest_framework.serializers import ValidationError
 
 from vacancies.models import Cv, Vacancy, LanguageLevel, Expirience
 
-
 class LanguageLevelSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(
         queryset=LanguageLevel.objects.all(),
@@ -86,7 +85,7 @@ class VacancySerializer(serializers.ModelSerializer):
             "language",
         )
 
-    def validate_name_cv(self, value):
+    def validate_title_cv(self, value):
         if match(r'^[-+]?[0-9]+$', value):
             raise ValidationError("Некорректное название вакансии.")
         return value
