@@ -13,6 +13,8 @@ class ApplicantSerializer(serializers.ModelSerializer):
     test_task_count = serializers.SerializerMethodField()
     interview_count = serializers.SerializerMethodField()
     schedule = serializers.CharField(source='get_schedule_display')
+    work_status = serializers.CharField(source='get_work_status_display')
+    edu_status = serializers.CharField(source='get_edu_status_display')
 
     class Meta:
         model = Applicant
@@ -27,6 +29,8 @@ class ApplicantSerializer(serializers.ModelSerializer):
             'course',
             'graduation_date',
             'schedule',
+            'work_status',
+            'edu_status',
             'response_count',
             'test_task_count',
             'interview_count',
