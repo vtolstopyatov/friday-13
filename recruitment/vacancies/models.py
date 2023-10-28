@@ -45,7 +45,7 @@ class Params(models.Model):
     #vacancy
     
     grade = models.CharField(max_length=2, choices=ch.GRADE, verbose_name=("Грейд"))
-    lang = models.ForeignKey(Language, on_delete=models.PROTECT, verbose_name=("Язык"))
+    # lang = models.ForeignKey(Language, on_delete=models.PROTECT, verbose_name=("Язык"))
     work_format = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("Форма работы"))
     schedule = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("График работы"))
     currency = models.CharField(max_length=5, choices=ch.CURRENCY, verbose_name=("Валюта"))  # узнать CHOICES у дизайнеров и поменять
