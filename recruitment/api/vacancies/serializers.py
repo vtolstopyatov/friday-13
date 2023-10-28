@@ -96,6 +96,10 @@ class VacancySerializer(serializers.ModelSerializer):
         return vacancy
 
 
+class AddApplicantSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Vacancy
 # class VacancySerializer(serializers.ModelSerializer):
 #     """Кастомный сериализатор для работы с вакансией."""
 

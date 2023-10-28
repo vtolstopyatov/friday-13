@@ -38,14 +38,9 @@ class Params(models.Model):
         (REMOTE, 'Удалённая работа'),
         (FLEX, 'Гибкий график'),
     ]
-    
-    
-
-    #vacancy
-    
+    min_wage = models.PositiveIntegerField(verbose_name=("Доход от"))
     grade = models.CharField(max_length=2, choices=ch.GRADE, verbose_name=("Грейд"))
-    # lang = models.ForeignKey(Language, on_delete=models.PROTECT, verbose_name=("Язык"))
-    work_format = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("Форма работы"))
+    work_format = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("Формат работы"))
     schedule = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("График работы"))
     currency = models.CharField(max_length=5, choices=ch.CURRENCY, verbose_name=("Валюта"))  # узнать CHOICES у дизайнеров и поменять
 
@@ -66,7 +61,6 @@ class Vacancy(Params):
     optional_requirements = models.TextField(verbose_name=("Необязательные требования"))
     conditions = models.TextField(verbose_name=("Условия"))
     selection_stages = models.TextField(verbose_name=("Этапы отбора"))
-    min_wage = models.PositiveIntegerField(verbose_name=("Доход от"))
     max_wage = models.PositiveIntegerField(verbose_name=("Доход до"))
     is_active = models.BooleanField(default=True, verbose_name=("Опубликована"))
     is_archive = models.BooleanField(default=False, verbose_name=("Архивная"))
