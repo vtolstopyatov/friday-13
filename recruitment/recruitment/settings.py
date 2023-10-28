@@ -22,6 +22,10 @@ ALLOWED_HOSTS = ['localhost',
                  '127.0.0.1',
                  '130.193.38.180']
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,6 +39,7 @@ INSTALLED_APPS = [
     # lib
     'django_filters',
     'drf_yasg',
+    "corsheaders",
     
     # custom app
     'users.apps.UsersConfig',
@@ -45,6 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

@@ -15,6 +15,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
     schedule = serializers.CharField(source='get_schedule_display')
     work_status = serializers.CharField(source='get_work_status_display')
     edu_status = serializers.CharField(source='get_edu_status_display')
+    # graduation_date = serializers.DateField(format='%Y %B')
 
     class Meta:
         model = Applicant
