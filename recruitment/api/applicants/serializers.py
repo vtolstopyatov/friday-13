@@ -25,7 +25,6 @@ class ApplicantSerializer(serializers.ModelSerializer):
             'last_name',
             'contacts',
             'optional_description',
-            'expirience',
             'avatar_url',
             'is_winner',
             'city',
