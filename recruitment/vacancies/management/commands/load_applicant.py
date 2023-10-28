@@ -16,7 +16,7 @@ class Command(BaseCommand):
             data = json.load(f)
         cities = City.objects.all()
         Course.objects.get_or_create(name='Разработчик')
-        Language.objects.get_or_create(name='Английский')
+        Language.objects.get_or_create(language='Английский')
         courses = Course.objects.all()
         for i in data:
             first_name = i.get('firstName')
