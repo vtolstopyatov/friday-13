@@ -38,6 +38,18 @@ class VacancyViewSet(viewsets.ModelViewSet):
         )
         return self.get_paginated_response(serializer.data)
 
+    @applicants.mapping.post
+    def applicants_add(self, request, pk=None):
+        '''Добавляет соискателя к вакансии.'''
+        pass
+        # recipe = self.get_object()
+        # user = request.user
+        # serializer = 
+        # return Response(
+        #     serializer.data,
+        #     status=status.HTTP_201_CREATED
+        # )
+
     # def get_serializer_class(self):
     #     if self.action in ('list', 'retrieve'):
     #         return VacancySerializer
