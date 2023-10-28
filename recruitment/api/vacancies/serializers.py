@@ -62,6 +62,7 @@ class VacancySerializer(serializers.ModelSerializer):
     """Сериализатор для вакансий."""
     author = serializers.PrimaryKeyRelatedField(read_only=True)
     language = LanguageLevelSerializer(many=True)
+    created = serializers.DateTimeField(format='%Y-%m-%d', input_formats=None)
 
     class Meta:
         model = Vacancy

@@ -22,6 +22,25 @@ ALLOWED_HOSTS = ['localhost',
                  '127.0.0.1',
                  '130.193.38.180']
 
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:3000',
+# ]
+# CORS_URLS_REGEX = r'^/.*$'
+# from corsheaders.defaults import default_headers
+
+# CORS_ALLOW_HEADERS = (
+#     *default_headers,
+#     "my-custom-header",
+# )
+CORS_ALLOW_HEADERS = ('content-disposition', 'accept-encoding',
+                      'content-type', 'accept', 'origin', 'Authorization',
+                      'access-control-allow-methods')
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOWED_ORIGINS = [
+#     "http://read.only.com",
+#     "http://change.allowed.com",
+# ]
+# CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,6 +54,7 @@ INSTALLED_APPS = [
     # lib
     'django_filters',
     'drf_yasg',
+    "corsheaders",
     
     # custom app
     'users.apps.UsersConfig',
@@ -45,6 +65,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
