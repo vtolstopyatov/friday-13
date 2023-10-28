@@ -38,7 +38,6 @@ class Params(models.Model):
         (REMOTE, 'Удалённая работа'),
         (FLEX, 'Гибкий график'),
     ]
-    min_wage = models.PositiveIntegerField(verbose_name=("Доход от"))
     grade = models.CharField(max_length=2, choices=ch.GRADE, verbose_name=("Грейд"))
     work_format = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("Формат работы"))
     schedule = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("График работы"))
@@ -61,6 +60,7 @@ class Vacancy(Params):
     optional_requirements = models.TextField(verbose_name=("Необязательные требования"))
     conditions = models.TextField(verbose_name=("Условия"))
     selection_stages = models.TextField(verbose_name=("Этапы отбора"))
+    min_wage = models.PositiveIntegerField(verbose_name=("Доход от"))
     max_wage = models.PositiveIntegerField(verbose_name=("Доход до"))
     is_active = models.BooleanField(default=True, verbose_name=("Опубликована"))
     is_archive = models.BooleanField(default=False, verbose_name=("Архивная"))
@@ -77,16 +77,16 @@ class Vacancy(Params):
 
 class LanguageLevel(models.Model):
     LANG_LVL = [
-        ("A1", "A1"),
-        ("A2", "A2"),
-        ("B1", "B1"),
-        ("B2", "B2"),
-        ("C1", "C1"),
-        ("C2", "C2"),
+        (1, "A1"),
+        (2, "A2"),
+        (3, "B1"),
+        (4, "B2"),
+        (5, "C1"),
+        (6, "C2"),
     ]
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='language')
-    level = models.CharField(max_length=2, choices=LANG_LVL)
+    level = models.PositiveSmallIntegerField(choices=LANG_LVL)
 
     class Meta:
         unique_together = ('language', 'vacancy', 'level')

@@ -11,7 +11,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         with open('data/towns.csv', newline='', encoding='utf-8') as f:
             reader = csv.reader(f)
-            for row in reader[1:]:
+            next(reader, None)
+            for row in reader:
                 City.objects.update_or_create(
                     name=row[0],
                     region=row[1],
