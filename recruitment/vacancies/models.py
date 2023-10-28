@@ -19,7 +19,6 @@ class City(models.Model):
 class Expirience(models.Model):
     date_start = models.DateField()
     date_end = models.DateField()
-    duration = models.DurationField()
     company = models.CharField(max_length=150, verbose_name=("Компания"))
     title = models.CharField(max_length=150, verbose_name=("Должность"))
     description = models.CharField(max_length=150, verbose_name=("обязанности"))
