@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from vacancies.models import Applicant
+from vacancies.models import Applicant, VacancyResponse
 
 
 class ApplicantSerializer(serializers.ModelSerializer):
@@ -16,20 +16,26 @@ class ApplicantSerializer(serializers.ModelSerializer):
     work_status = serializers.CharField(source='get_work_status_display')
     edu_status = serializers.CharField(source='get_edu_status_display')
     # graduation_date = serializers.DateField(format='%Y %B')
-
+    city = serializers.ReadOnlyField(source='city.name')
+    
     class Meta:
         model = Applicant
         fields = [
             'id',
             'first_name',
             'last_name',
+            'contacts',
+            'optional_description',
+            'expirience',
             'avatar_url',
             'is_winner',
             'city',
             'age',
             'course',
             'graduation_date',
+            'salary',
             'schedule',
+            'grade',
             'work_status',
             'edu_status',
             'response_count',
