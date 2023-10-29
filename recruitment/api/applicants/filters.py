@@ -1,4 +1,4 @@
-from ...recruitment import settings as ch
+from recruitment import settings as ch
 from django_filters import rest_framework as filters
 from vacancies.models import Applicant
 
