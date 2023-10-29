@@ -16,12 +16,14 @@ class City(models.Model):
     region = models.CharField(max_length=50, verbose_name='Регион')
     country = models.CharField(max_length=50, verbose_name='Страна')
 
+
 class Expirience(models.Model):
     date_start = models.DateField()
     date_end = models.DateField()
     company = models.CharField(max_length=150, verbose_name=("Компания"))
     title = models.CharField(max_length=150, verbose_name=("Должность"))
     description = models.CharField(max_length=150, verbose_name=("обязанности"))
+
 
 class Language(models.Model):
     language = models.CharField(max_length=50, verbose_name='Язык')
@@ -106,7 +108,6 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 class Applicant(Params):

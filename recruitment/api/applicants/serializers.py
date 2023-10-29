@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from vacancies.models import Applicant, VacancyResponse, Expirience
+
+
 class ExpirienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expirience
@@ -11,12 +13,14 @@ class ExpirienceSerializer(serializers.ModelSerializer):
             'description',
         ]
 
+
 class VacancyResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = VacancyResponse
         fields = [
             'status'
         ]
+
 
 class ApplicantSerializer(serializers.ModelSerializer):
     '''Сериалайзер соискателей.'''
@@ -33,7 +37,6 @@ class ApplicantSerializer(serializers.ModelSerializer):
     edu_status = serializers.CharField(source='get_edu_status_display')
     grade = serializers.CharField(source='get_grade_display')
     # expirience = ExpirienceSerializer()
-    # response_status = VacancyResponseSerializer()
 
 
     class Meta:
@@ -59,7 +62,6 @@ class ApplicantSerializer(serializers.ModelSerializer):
             'test_task_count',
             'interview_count',
             # 'expirience',
-            # 'response_status'
         ]
 
     def get_response_count(self, obj):
@@ -70,3 +72,38 @@ class ApplicantSerializer(serializers.ModelSerializer):
 
     def get_interview_count(self, obj):
         return obj.vacancy_interviews.count()
+
+
+class VacancyApplicantSerializer(ApplicantSerializer):
+    response_status = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Applicant
+        fields = [
+            'id',
+            'first_name',
+            'last_name',
+            'contacts',
+            'optional_description',
+            'avatar_url',
+            'is_winner',
+            'city',
+            'age',
+            'course',
+            'graduation_date',
+            'salary',
+            'work_format',
+            'grade',
+            'work_status',
+            'edu_status',
+            'response_count',
+            'test_task_count',
+            'interview_count',
+            # 'expirience',
+            'response_status',
+        ]
+
+    def get_response_status(self, obj, *args, **kwargs):
+        vacancy_pk = self.context.get('request').parser_context.get('kwargs').get('vacancy_pk')
+        status = VacancyResponse.objects.get(applicant=obj.pk, vacancy=vacancy_pk).status
+        return VacancyResponse.STATUS[status-1][1]
