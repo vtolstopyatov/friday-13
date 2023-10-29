@@ -35,6 +35,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
     # expirience = ExpirienceSerializer()
     # response_status = VacancyResponseSerializer()
 
+
     class Meta:
         model = Applicant
         fields = [

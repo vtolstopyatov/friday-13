@@ -130,6 +130,7 @@ class Applicant(Params):
     work_status = models.PositiveSmallIntegerField(choices=WORK_STATUS)
     salary = models.IntegerField()
     optional_description = models.TextField(verbose_name=("Немного о себе"))
+    exp = models.ForeignKey(Expirience, on_delete=models.PROTECT, null=True)
 
 
 class VacancyResponse(models.Model):
