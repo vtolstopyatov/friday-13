@@ -29,7 +29,7 @@ class Command(BaseCommand):
                 last_name=last_name,
                 username=username,
                 email=email,
-                userpic=url,
+                defaults={'userpic':url},
             )
             if not Applicant.objects.filter(student=student).exists():
                 data = {
