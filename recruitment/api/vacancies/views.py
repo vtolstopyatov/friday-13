@@ -68,7 +68,7 @@ class VacancyViewSet(viewsets.ModelViewSet):
 
     @applicants.mapping.delete
     def applicants_remove(self, request, pk=None):
-        '''Добавляет соискателя к вакансии.'''
+        '''Удаляет соискателя из вакансии.'''
         vacancy = self.get_object()
         request.data['vacancy'] = pk
         serializer = InviteApplicantSerializer(data=request.data)
@@ -85,10 +85,14 @@ class VacancyViewSet(viewsets.ModelViewSet):
                     status=status.HTTP_204_NO_CONTENT,
                 )
             return Response(
-                {'errors': 'was not added'},
+                {'errors': 'not in added'},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response(
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+    @applicants.mapping.patch
+    def applicants_change_status(self, requset, pk=None):
+        pass
