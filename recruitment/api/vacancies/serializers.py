@@ -54,6 +54,8 @@ class CvSerializer(serializers.ModelSerializer):
             "salary",
             "experience",
             "currency",
+            
+            
         )
 
 
@@ -68,6 +70,10 @@ class VacancySerializer(serializers.ModelSerializer):
         fields = (
             "author",
             "title",
+            "expirience",
+            "conditions",
+            "grade",
+            "work_format",
             "description",
             "requirements",
             "optional_requirements",

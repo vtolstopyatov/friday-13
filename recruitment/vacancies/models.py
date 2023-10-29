@@ -54,6 +54,7 @@ class Vacancy(Params):
     title = models.CharField(max_length=200, null=False, verbose_name=("Название"))
     city = models.ForeignKey(City, on_delete=models.PROTECT, related_name='vacancy', verbose_name='Город')
     description = models.TextField(verbose_name=("Подробности"))
+    expirience = models.CharField(choices=ch.EXP, max_length=5, verbose_name=("Опыт работы"))
     responsibility = models.TextField(verbose_name=("Обязанности"))
     requirements = models.TextField(verbose_name=("Требования"))
     optional_requirements = models.TextField(verbose_name=("Необязательные требования"))
