@@ -5,8 +5,9 @@ from django.contrib.auth.admin import UserAdmin
 User = get_user_model()
 
 
-class CustomUserAdmin(UserAdmin):
-    search_fields = ['username']
+# class CustomUserAdmin(UserAdmin):
+#     search_fields = ['username']
 
 
-admin.site.register(User, CustomUserAdmin)
+# admin.site.register(User, CustomUserAdmin)
+admin.site.register(User)

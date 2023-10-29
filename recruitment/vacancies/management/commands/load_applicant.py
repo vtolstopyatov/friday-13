@@ -23,7 +23,7 @@ class Command(BaseCommand):
             last_name = i.get('lastName')
             username = first_name + last_name
             email = username + '@adm.adm'
-            url = 'https://yandex.ru/'
+            url = 'uploads/2023/10/29/photo_2023-10-04_11-36-09.jpg'
             student, _ = User.objects.update_or_create(
                 first_name=first_name,
                 last_name=last_name,

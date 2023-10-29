@@ -8,15 +8,15 @@ class ApplicantSerializer(serializers.ModelSerializer):
     last_name = serializers.ReadOnlyField(source='student.last_name')
     avatar_url = serializers.ImageField(source='student.userpic', read_only=True, use_url=True)
     course = serializers.ReadOnlyField(source='course.name')
-    city = serializers.ReadOnlyField(source='city.name')
+    city = serializers.ReadOnlyField(source='province.name')
     response_count = serializers.SerializerMethodField()
     test_task_count = serializers.SerializerMethodField()
     interview_count = serializers.SerializerMethodField()
-    schedule = serializers.CharField(source='get_schedule_display')
+    work_format = serializers.CharField(source='get_work_format_display')
     work_status = serializers.CharField(source='get_work_status_display')
     edu_status = serializers.CharField(source='get_edu_status_display')
-    # graduation_date = serializers.DateField(format='%Y %B')
-    
+    grade = serializers.CharField(source='get_grade_display')
+
     class Meta:
         model = Applicant
         fields = [
@@ -32,7 +32,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
             'course',
             'graduation_date',
             'salary',
-            'schedule',
+            'work_format',
             'grade',
             'work_status',
             'edu_status',

@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from rest_framework.serializers import ValidationError
 
-from vacancies.models import Cv, Vacancy, LanguageLevel, Expirience
+from vacancies.models import Cv, Vacancy, LanguageLevel, Expirience, Applicant, VacancyResponse
 
 class LanguageLevelSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(
@@ -96,10 +96,13 @@ class VacancySerializer(serializers.ModelSerializer):
         return vacancy
 
 
-class AddApplicantSerializer(serializers.ModelSerializer):
+class InviteApplicantSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Vacancy
+        model = VacancyResponse
+        fields = ['applicant']
+
+
 # class VacancySerializer(serializers.ModelSerializer):
 #     """Кастомный сериализатор для работы с вакансией."""
 

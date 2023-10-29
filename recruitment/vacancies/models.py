@@ -32,15 +32,14 @@ class Params(models.Model):
     HYBRID = 'HB'
     REMOTE = 'RM'
     FLEX = 'FX'
-    SCHEDULE = [
+    WORK_FORMAT = [
         (FULL_DAY, 'Полный день'),
         (HYBRID, 'Гибрид'),
         (REMOTE, 'Удалённая работа'),
         (FLEX, 'Гибкий график'),
     ]
     grade = models.CharField(max_length=2, choices=ch.GRADE, verbose_name=("Грейд"))
-    work_format = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("Формат работы"))
-    schedule = models.CharField(max_length=5, choices=SCHEDULE, verbose_name=("График работы"))
+    work_format = models.CharField(max_length=5, choices=WORK_FORMAT, verbose_name=("Формат работы"))
     currency = models.CharField(max_length=5, choices=ch.CURRENCY, verbose_name=("Валюта"))  # узнать CHOICES у дизайнеров и поменять
 
     class Meta:
