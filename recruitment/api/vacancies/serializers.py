@@ -2,6 +2,7 @@ from re import match
 from rest_framework import serializers
 
 from rest_framework.serializers import ValidationError
+from rest_framework_nested.serializers import NestedHyperlinkedModelSerializer
 
 from vacancies.models import Cv, Vacancy, LanguageLevel, Expirience, Applicant, VacancyResponse
 
@@ -106,32 +107,12 @@ class InviteApplicantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VacancyResponse
-        fields = ['applicant']
+        fields = ['applicant', 'vacancy', 'status']
 
 
-# class VacancySerializer(serializers.ModelSerializer):
-#     """Кастомный сериализатор для работы с вакансией."""
+class VacancyResponseSerializer(serializers.ModelSerializer):
+    vacancy_responses = InviteApplicantSerializer()
 
-#     class Meta:
-#         model = Vacancy
-#         fields = (
-#             "author",
-#             "name",
-#             "description",
-#             "requirements",
-#             "experience",
-#             "optional_requirements",
-#             "responsibility",
-#             "conditions",
-#             "selection_stages",
-#             "is_active",
-#             "is_archive",
-#             "created",
-
-#             "province",
-#             "min_wage",
-#             "max_wage",
-#             "experience",
-#             "currency",
-#             "language",
-#         )
+    class Meta:
+        model = Vacancy
+        fields = ['vacancy_responses']

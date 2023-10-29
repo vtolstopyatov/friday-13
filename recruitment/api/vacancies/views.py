@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from vacancies.models import Cv, Vacancy, Applicant, VacancyResponse
 from .serializers import (CvCreateSerializer, CvSerializer,
-                          VacancySerializer, InviteApplicantSerializer)
+                          VacancySerializer, InviteApplicantSerializer, VacancyResponseSerializer)
 from .filters import CvFilter, VacancyFilter
 from ..applicants.serializers import ApplicantSerializer
 
@@ -44,7 +44,7 @@ class VacancyViewSet(viewsets.ModelViewSet):
         '''Добавляет соискателя к вакансии.'''
         vacancy = self.get_object()
         request.data['vacancy'] = pk
-        serializer = InviteApplicantSerializer(data=request.data)
+        serializer = VacancyResponseSerializer(data=request.data)
         if serializer.is_valid():
             applicant = serializer.validated_data.get('applicant')
             obj, created = VacancyResponse.objects.get_or_create(
@@ -93,6 +93,62 @@ class VacancyViewSet(viewsets.ModelViewSet):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    @applicants.mapping.patch
-    def applicants_change_status(self, requset, pk=None):
-        pass
+
+class ResponsesViewSet(viewsets.ModelViewSet):
+
+    def get_queryset(self):
+        if self.action in ('list', 'retrieve', 'destroy'):
+            return Applicant.objects.filter(vacancy_responses__vacancy__id=self.kwargs['vacancy_pk'])
+        return VacancyResponse.objects.filter(vacancy__id=self.kwargs['vacancy_pk'])
+
+    def get_serializer_class(self):
+        if self.action in ('list', 'retrieve', 'destroy'):
+            return ApplicantSerializer
+        return InviteApplicantSerializer
+
+    def create(self, request, *args, **kwargs):
+        '''Добавляет соискателя к вакансии.'''
+        request.data['vacancy'] = self.kwargs['vacancy_pk']
+        request.data['status'] = VacancyResponse.STATUS[1][0]
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    def destroy(self, request, *args, **kwargs):
+        '''Удаляет соискателя из вакансии.'''
+        obj = VacancyResponse.objects.filter(
+            vacancy__id=self.kwargs['vacancy_pk'],
+            applicant__id=self.kwargs['pk'],
+        )
+        if obj.exists():
+            obj.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(
+            {'errors': 'not in added'},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    def partial_update(self, request, *args, **kwargs):
+        '''Обновляет статус отклика на вакансию.'''
+        request.data['vacancy'] = self.kwargs['vacancy_pk']
+        request.data['applicant'] = self.kwargs['pk']
+        # obj = Objects
+        serializer = self.get_serializer(data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST,
+        )

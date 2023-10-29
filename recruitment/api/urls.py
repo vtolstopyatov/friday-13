@@ -1,21 +1,26 @@
 from django.urls import include, path
 from rest_framework import routers
-from .vacancies.views import VacancyViewSet
+from .vacancies.views import VacancyViewSet, ResponsesViewSet
 from .cities.views import CityViewSet
 from .applicants.views import ApplicantViewSet
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from rest_framework_nested import routers
 
-v1_router = routers.DefaultRouter()
+v1_router = routers.SimpleRouter()
 
 v1_router.register('vacancies', VacancyViewSet, basename='vacancies')
 v1_router.register('cities', CityViewSet, basename='cities')
 v1_router.register('applicants', ApplicantViewSet, basename='applicants')
 
+vacancies_router = routers.NestedSimpleRouter(v1_router, 'vacancies', lookup='vacancy')
+vacancies_router.register('responses', ResponsesViewSet, basename='vacancy-responses')
+
 urlpatterns = [
     path('', include(v1_router.urls)),
+    path('', include(vacancies_router.urls)),
 ]
 
 schema_view = get_schema_view(
