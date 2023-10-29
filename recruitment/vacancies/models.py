@@ -28,18 +28,9 @@ class Language(models.Model):
 
 
 class Params(models.Model):
-    FULL_DAY = 'FD'
-    HYBRID = 'HB'
-    REMOTE = 'RM'
-    FLEX = 'FX'
-    WORK_FORMAT = [
-        (FULL_DAY, 'Полный день'),
-        (HYBRID, 'Гибрид'),
-        (REMOTE, 'Удалённая работа'),
-        (FLEX, 'Гибкий график'),
-    ]
+    
     grade = models.CharField(max_length=2, choices=ch.GRADE, verbose_name=("Грейд"))
-    work_format = models.CharField(max_length=5, choices=WORK_FORMAT, verbose_name=("Формат работы"))
+    work_format = models.CharField(max_length=5, choices=ch.WORK_FORMAT, verbose_name=("Формат работы"))
     currency = models.CharField(max_length=5, choices=ch.CURRENCY, verbose_name=("Валюта"))  # узнать CHOICES у дизайнеров и поменять
 
     class Meta:
@@ -110,15 +101,7 @@ class Course(models.Model):
 
 
 class Applicant(Params):
-    EDU_STATUS = [
-        (1, 'Студент'),
-        (2, 'Выпускник'),
-    ]
-    WORK_STATUS = [
-        (1, 'Учебный'),
-        (2, 'Релевантный'),
-        (3, 'Около-релевантный'),
-    ]
+    
     student = models.OneToOneField(User, on_delete=models.CASCADE)
     province = models.ForeignKey(City, on_delete=models.PROTECT, related_name='applicant', verbose_name='Город')
     is_winner = models.BooleanField()
@@ -126,8 +109,8 @@ class Applicant(Params):
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
     graduation_date = models.DateField()
     contacts = models.CharField(max_length=150)
-    edu_status = models.PositiveSmallIntegerField(choices=EDU_STATUS)
-    work_status = models.PositiveSmallIntegerField(choices=WORK_STATUS)
+    edu_status = models.PositiveSmallIntegerField(choices=ch.EDU_STATUS)
+    work_status = models.PositiveSmallIntegerField(choices=ch.WORK_STATUS)
     salary = models.IntegerField()
     optional_description = models.TextField(verbose_name=("Немного о себе"))
     exp = models.ForeignKey(Expirience, on_delete=models.PROTECT, null=True)
