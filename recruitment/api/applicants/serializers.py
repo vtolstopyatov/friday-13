@@ -32,8 +32,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
     work_status = serializers.CharField(source='get_work_status_display')
     edu_status = serializers.CharField(source='get_edu_status_display')
     grade = serializers.CharField(source='get_grade_display')
-    expirience = ExpirienceSerializer()
-    response_status = VacancyResponseSerializer()
+    expirience = ExpirienceSerializer(many=True)
 
     class Meta:
         model = Applicant
@@ -58,7 +57,6 @@ class ApplicantSerializer(serializers.ModelSerializer):
             'test_task_count',
             'interview_count',
             'expirience',
-            'response_status'
         ]
 
     def get_response_count(self, obj):
