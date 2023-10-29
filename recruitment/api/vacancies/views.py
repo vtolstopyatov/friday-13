@@ -47,7 +47,7 @@ class ResponsesViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         '''Добавляет соискателя к вакансии.'''
         request.data['vacancy'] = self.kwargs['vacancy_pk']
-        request.data['status'] = VacancyResponse.STATUS[1][0]
+        request.data['status'] = VacancyResponse.STATUS[1][1]
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
