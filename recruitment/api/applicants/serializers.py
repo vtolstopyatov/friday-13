@@ -30,14 +30,11 @@ class ApplicantSerializer(serializers.ModelSerializer):
     course = serializers.ReadOnlyField(source='course.name')
     city = serializers.ReadOnlyField(source='province.name')
     response_count = serializers.SerializerMethodField()
-    test_task_count = serializers.SerializerMethodField()
-    interview_count = serializers.SerializerMethodField()
     work_format = serializers.CharField(source='get_work_format_display')
     work_status = serializers.CharField(source='get_work_status_display')
     edu_status = serializers.CharField(source='get_edu_status_display')
     grade = serializers.CharField(source='get_grade_display')
-    # expirience = ExpirienceSerializer()
-
+    expirience = ExpirienceSerializer(source='exp')
 
     class Meta:
         model = Applicant
@@ -61,17 +58,11 @@ class ApplicantSerializer(serializers.ModelSerializer):
             'response_count',
             'test_task_count',
             'interview_count',
-            # 'expirience',
+            'expirience',
         ]
 
     def get_response_count(self, obj):
-        return obj.vacancy_responses.count()
-
-    def get_test_task_count(self, obj):
-        return obj.vacancy_test_tasks.count()
-
-    def get_interview_count(self, obj):
-        return obj.vacancy_interviews.count()
+        return obj.vacancy_responses.count() + obj.response_base_count
 
 
 class VacancyApplicantSerializer(ApplicantSerializer):
@@ -99,7 +90,7 @@ class VacancyApplicantSerializer(ApplicantSerializer):
             'response_count',
             'test_task_count',
             'interview_count',
-            # 'expirience',
+            'expirience',
             'response_status',
         ]
 

@@ -47,6 +47,9 @@ class Command(BaseCommand):
                     'currency': random.choice(ch.CURRENCY)[0],
                     'salary': random.randint(1, 30)*10000,
                     'optional_description': i.get('about'),
+                    'response_base_count': random.randint(0, 22),
+                    'test_task_count': random.randint(0, 22),
+                    'interview_count': random.randint(0, 22),
                 }
                 Applicant.objects.update_or_create(
                     student=student,

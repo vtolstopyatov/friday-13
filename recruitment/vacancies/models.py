@@ -30,7 +30,6 @@ class Language(models.Model):
 
 
 class Params(models.Model):
-    
     grade = models.CharField(max_length=2, choices=ch.GRADE, verbose_name=("Грейд"))
     work_format = models.CharField(max_length=5, choices=ch.WORK_FORMAT, verbose_name=("Формат работы"))
     currency = models.CharField(max_length=5, choices=ch.CURRENCY, verbose_name=("Валюта"))  # узнать CHOICES у дизайнеров и поменять
@@ -102,7 +101,6 @@ class Course(models.Model):
 
 
 class Applicant(Params):
-    
     student = models.OneToOneField(User, on_delete=models.CASCADE)
     province = models.ForeignKey(City, on_delete=models.PROTECT, related_name='applicant', verbose_name='Город')
     is_winner = models.BooleanField()
@@ -115,6 +113,9 @@ class Applicant(Params):
     salary = models.IntegerField()
     optional_description = models.TextField(verbose_name=("Немного о себе"))
     exp = models.ForeignKey(Expirience, on_delete=models.PROTECT, null=True)
+    response_base_count = models.PositiveSmallIntegerField()
+    test_task_count = models.PositiveSmallIntegerField()
+    interview_count = models.PositiveSmallIntegerField()
 
 
 class VacancyResponse(models.Model):
@@ -134,21 +135,6 @@ class VacancyResponse(models.Model):
     applicant = models.ForeignKey(Applicant, on_delete=models.CASCADE, related_name='vacancy_responses', verbose_name='Соискатель')
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='vacancy_responses', verbose_name='Вакансия')
     status = models.PositiveSmallIntegerField(choices=STATUS, )
-
-    class Meta:
-        unique_together = ('applicant', 'vacancy')
-
-class TestTask(models.Model):  # возможно удаляем, заменяется VacancyResponse, фикс сериалайзеров
-    applicant = models.ForeignKey(Applicant, on_delete=models.CASCADE, related_name='vacancy_test_tasks', verbose_name='Соискатель')
-    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='vacancy_test_tasks', verbose_name='Рекрутер')
-
-    class Meta:
-        unique_together = ('applicant', 'vacancy')
-
-
-class Interview(models.Model):  # возможно удаляем, заменяется VacancyResponse, фикс сериалайзеров
-    applicant = models.ForeignKey(Applicant, on_delete=models.CASCADE, related_name='vacancy_interviews', verbose_name='Соискатель')
-    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='vacancy_interviews', verbose_name='Рекрутер')
 
     class Meta:
         unique_together = ('applicant', 'vacancy')
