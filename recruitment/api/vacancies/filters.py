@@ -12,7 +12,7 @@ class VacancyFilter(filters.FilterSet):
         field_name='city',
     )
     grade = filters.ChoiceFilter(
-        choices = GRADE
+        choices=GRADE
     )
     is_remote_work = filters.CharFilter(
         field_name='is_remote_work',
@@ -28,10 +28,10 @@ class VacancyFilter(filters.FilterSet):
     class Meta:
         model = Vacancy
         fields = [
-            'grade', 
-            'city', 
-            'is_remote_work', 
-            'min_wage', 
-            'max_wage', 
-            'is_active'
-            ]
+            'grade',
+            'city',
+            'is_remote_work',
+            'min_wage',
+            'max_wage',
+            'is_active',
+        ]

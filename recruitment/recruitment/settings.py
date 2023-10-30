@@ -41,12 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # lib
     'django_filters',
     'drf_yasg',
     "corsheaders",
-    
+
     # custom app
     'users.apps.UsersConfig',
     'api.apps.ApiConfig',

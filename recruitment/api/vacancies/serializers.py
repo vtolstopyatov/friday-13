@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from rest_framework.serializers import ValidationError
 
-from vacancies.models import Vacancy, LanguageLevel, VacancyResponse, Language
+from vacancies.models import Vacancy, LanguageLevel, VacancyResponse, Language, Applicant
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -48,6 +48,8 @@ class VacancySerializer(serializers.ModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True)
     language = LanguageLevelSerializer(many=True)
     created = serializers.DateTimeField(format='%Y-%m-%d', input_formats=None)
+    response_count = serializers.SerializerMethodField()
+    suitable_candidates_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Vacancy
@@ -73,6 +75,8 @@ class VacancySerializer(serializers.ModelSerializer):
             "max_wage",
             "currency",
             "language",
+            "response_count",
+            "suitable_candidates_count",
         )
 
     def validate_title_vacancy(self, value):
@@ -104,12 +108,24 @@ class VacancySerializer(serializers.ModelSerializer):
             setattr(vacancy, attr, value)
         return vacancy
 
+    def get_response_count(self, vacancy):
+        return VacancyResponse.objects.filter(vacancy=vacancy).count()
+
+    def get_suitable_candidates_count(self, vacancy):
+        count = Applicant.objects.filter(
+            grade=vacancy.grade,
+            work_format=vacancy.work_format,
+            salary__lte=vacancy.max_wage,
+            province=vacancy.city,
+        ).count()
+        return count
+
 
 class VacancyResponseSerializer(serializers.ModelSerializer):
     """
     Сериализатор для статуса кандидата.
     """
-    
+
     status = DisplayChoiceField(choices=VacancyResponse.STATUS)
 
     class Meta:
@@ -118,6 +134,10 @@ class VacancyResponseSerializer(serializers.ModelSerializer):
 
 
 class SendMailSerializer(serializers.Serializer):
+    """
+    Сериализатор для отправки писем.
+    """
+
     to = serializers.EmailField()
     subject = serializers.CharField(max_length=200)
     body = serializers.CharField(max_length=30000)

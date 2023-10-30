@@ -2,17 +2,18 @@ from recruitment import settings as ch
 from django_filters import rest_framework as filters
 from vacancies.models import Applicant
 
+
 class ApplicantFilter(filters.FilterSet):
     """Фильтры для соискателей."""
 
     edu_status = filters.ChoiceFilter(
-        choices = ch.EDU_STATUS
+        choices=ch.EDU_STATUS
     )
     grade = filters.ChoiceFilter(
-        choices = ch.GRADE
+        choices=ch.GRADE
     )
     work_status = filters.ChoiceFilter(
-        choices = ch.WORK_STATUS
+        choices=ch.WORK_STATUS
     )
     is_winner = filters.NumberFilter(
         field_name='is_winner',
@@ -25,12 +26,13 @@ class ApplicantFilter(filters.FilterSet):
         field_name='expirience__date_start'
     )
     work_format = filters.ChoiceFilter(
-        choices = ch.WORK_FORMAT
+        choices=ch.WORK_FORMAT
     )
     course = filters.CharFilter(
         field_name='course__name',
         lookup_expr='icontains',
     )
+
     class Meta:
         model = Applicant
         fields = [
@@ -41,4 +43,4 @@ class ApplicantFilter(filters.FilterSet):
             'province',
             'expirience',
             'work_format',
-            ]
+        ]
