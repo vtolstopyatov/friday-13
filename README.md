@@ -6,46 +6,34 @@
 
 Friday-13 является сервисом для работы в кандидатами и резюме.
 
+## Над проектом работали:
+- [Владимир Толстопятов](https://github.com/vtolstopyatov)
+- [Дмитрий Луконин](https://t.me/folite999)
+
+## Проект можно посмотреть по адресу:
+[hakaton-tracker-team-13.vercel.app](https://hakaton-tracker-team-13.vercel.app/)
 ## Подготовка и запуск проекта
 ### Склонировать репозиторий на локальную машину:
 ```
 git clone https://github.com/vtolstopyatov/friday-13
 ```
 
-### Cоздать и активировать виртуальное окружение:
-```
-python3 -m venv venv
-```
-
-* Если у вас Linux/MacOS
-
-    ```
-    source venv/bin/activate
-    ```
-
-* Если у вас windows
-
-    ```
-    source venv/scripts/activate
-    ```
-
-### Установить зависимости из файла requirements.txt:
-
-```
-python3 -m pip install --upgrade pip
-```
-
-```
-pip install -r requirements.txt
-```
-
 ### Запуск проекта:
 
 ```
-docker-compose up -d --build
+docker-compose up -d
 ```
+## Использованые фреймворки и библиотеки:
+- [Django](https://www.djangoproject.com/)
+- [Django REST framework](https://www.django-rest-framework.org/)
+- [django-filter](https://django-filter.readthedocs.io/en/stable/)
+- [django-cors-headers](https://github.com/adamchainz/django-cors-headers)
+- [Djoser](https://djoser.readthedocs.io/)
+- [drf-nested-routers](https://github.com/alanjds/drf-nested-routers)
+- [drf-yasg](https://drf-yasg.readthedocs.io/en/stable/)
+- [Gunicorn](https://gunicorn.org/)
 
-### Работа с API через Postman Agent:
+## Работа с API через Postman Agent
 
 #### Для получения всех кандидатов:
 
@@ -182,7 +170,3 @@ JSON:
 ```
 DELETE http://130.193.38.180/api/vacancies/{vacancy_pk}/responses/{id}/
 ```
-
-# Над проектом работали:
-- [Владимир Толстопятов](https://github.com/vtolstopyatov)
-- [Дмитрий Луконин](https://t.me/folite999)
