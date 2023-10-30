@@ -3,7 +3,9 @@ from vacancies.models import Language
 
 
 class LanguageSerializer(serializers.ModelSerializer):
-    '''Сериализатор языков.'''
+    """
+    Сериализатор разговорых языков.
+    """
 
     class Meta:
         model = Language

@@ -3,7 +3,8 @@ from django_filters import rest_framework as filters
 from vacancies.models import Applicant
 
 class ApplicantFilter(filters.FilterSet):
-    '''Фильтры для соискателей.'''
+    """Фильтры для соискателей."""
+    
     edu_status = filters.ChoiceFilter(
         choices = ch.EDU_STATUS
     )

@@ -1,4 +1,16 @@
+<<<<<<< HEAD
 from django.core.mail import send_mail
+=======
+from rest_framework import viewsets, status
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
+
+from vacancies.models import Vacancy, Applicant, VacancyResponse
+from .serializers import (VacancySerializer, VacancyResponseSerializer)
+from .filters import VacancyFilter
+from ..applicants.serializers import VacancyApplicantSerializer
+from ..applicants.filters import ApplicantFilter
+>>>>>>> c65f10eeeebbb0f90bff9ae618097f4ed8ba16df
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, viewsets
@@ -13,14 +25,23 @@ from .serializers import (SendMailSerializer, VacancyResponseSerializer,
 
 
 class VacancyViewSet(viewsets.ModelViewSet):
+    """
+    Viewset вакансий.
+    """
 
     queryset = Vacancy.objects.all()
     serializer_class = VacancySerializer
-    filter_backends = (DjangoFilterBackend, )
+    filter_backends = (DjangoFilterBackend,)
     filterset_class = VacancyFilter
 
 
 class ResponsesViewSet(viewsets.ModelViewSet):
+    """
+    Viewset кандидатов по вакансиям.
+    """
+
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ApplicantFilter
 
     def get_queryset(self):
         if self.action in ('list', 'retrieve', 'destroy'):
@@ -33,7 +54,9 @@ class ResponsesViewSet(viewsets.ModelViewSet):
         return VacancyResponseSerializer
 
     def create(self, request, *args, **kwargs):
-        '''Добавляет соискателя к вакансии.'''
+        """
+        Добавляет соискателя к вакансии.
+        """
         request.data['vacancy'] = self.kwargs['vacancy_pk']
         request.data['status'] = VacancyResponse.STATUS[1][1]
         serializer = self.get_serializer(data=request.data)
@@ -49,7 +72,9 @@ class ResponsesViewSet(viewsets.ModelViewSet):
         )
 
     def destroy(self, request, *args, **kwargs):
-        '''Удаляет соискателя из вакансии.'''
+        """
+        Удаляет соискателя из вакансии.
+        """
         obj = VacancyResponse.objects.filter(
             vacancy__id=self.kwargs['vacancy_pk'],
             applicant__id=self.kwargs['pk'],
@@ -63,7 +88,9 @@ class ResponsesViewSet(viewsets.ModelViewSet):
         )
 
     def partial_update(self, request, vacancy_pk=None, pk=None, *args, **kwargs):
-        '''Обновляет статус отклика на вакансию.'''
+        """
+        Обновляет статус отклика на вакансию.
+        """
         request.data['vacancy'] = vacancy_pk
         request.data['applicant'] = pk
         obj = get_object_or_404(

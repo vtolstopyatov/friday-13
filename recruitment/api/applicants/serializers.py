@@ -3,6 +3,10 @@ from vacancies.models import Applicant, Expirience, VacancyResponse
 
 
 class ExpirienceSerializer(serializers.ModelSerializer):
+    """
+    Сериалайзер опыта кандидата.
+    """
+    
     class Meta:
         model = Expirience
         fields = [
@@ -15,7 +19,9 @@ class ExpirienceSerializer(serializers.ModelSerializer):
 
 
 class ApplicantSerializer(serializers.ModelSerializer):
-    '''Сериалайзер соискателей.'''
+    """
+    Сериалайзер соискателей.
+    """
     first_name = serializers.ReadOnlyField(source='student.first_name')
     last_name = serializers.ReadOnlyField(source='student.last_name')
     avatar_url = serializers.ImageField(source='student.userpic', read_only=True, use_url=True)
@@ -58,6 +64,10 @@ class ApplicantSerializer(serializers.ModelSerializer):
 
 
 class VacancyApplicantSerializer(ApplicantSerializer):
+    """
+    Сериалайзер статуса соискателей.
+    """
+
     response_status = serializers.SerializerMethodField()
 
     class Meta:

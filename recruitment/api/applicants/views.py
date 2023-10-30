@@ -7,7 +7,10 @@ from .filters import ApplicantFilter
 
 
 class ApplicantViewSet(viewsets.ReadOnlyModelViewSet):
-    'Viewset соискателей.'
+    """
+    Viewset соискателей.
+    """
+    
     queryset = Applicant.objects.all()
     serializer_class = ApplicantSerializer
     filter_backends = (DjangoFilterBackend, )
