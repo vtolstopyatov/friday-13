@@ -24,10 +24,12 @@ ALLOWED_HOSTS = ['localhost',
                  'team-13.nomoredomainsrocks.ru',
                  'aboba.pro']
 
+CSRF_TRUSTED_ORIGINS = ['https://aboba.pro',]
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://team-13.nomoredomainsrocks.ru",
-    "https://aboba.pro/",
+    "https://aboba.pro",
 ]
 
 # Application definition
