@@ -4,7 +4,10 @@ from vacancies.models import Vacancy
 
 
 class VacancyFilter(filters.FilterSet):
-    '''Фильтры для резюме.'''
+    """
+    Фильтры для вакансий.
+    """
+    
     city = filters.CharFilter(
         field_name='city',
     )
@@ -24,4 +27,11 @@ class VacancyFilter(filters.FilterSet):
 
     class Meta:
         model = Vacancy
-        fields = ['grade', 'city']
+        fields = [
+            'grade', 
+            'city', 
+            'is_remote_work', 
+            'min_wage', 
+            'max_wage', 
+            'is_active'
+            ]

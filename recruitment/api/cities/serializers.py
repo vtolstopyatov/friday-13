@@ -3,7 +3,9 @@ from vacancies.models import City
 
 
 class CitySerializer(serializers.ModelSerializer):
-    '''Сериализатор городов.'''
+    """
+    Сериалайзер города.
+    """
 
     class Meta:
         model = City

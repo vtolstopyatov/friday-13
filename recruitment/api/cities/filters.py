@@ -3,7 +3,10 @@ from vacancies.models import City
 
 
 class CityFilter(filters.FilterSet):
-    '''Фильтры для городов.'''
+    """
+    Фильтры для городов.
+    """
+    
     name = filters.CharFilter(
         field_name='name',
         lookup_expr='icontains',

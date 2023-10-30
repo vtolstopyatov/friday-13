@@ -25,6 +25,10 @@ class DisplayChoiceField(serializers.ChoiceField):
 
 
 class LanguageLevelSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для уровня разговорного языка.
+    """
+
     id = serializers.PrimaryKeyRelatedField(
         queryset=Language.objects.all(),
         source='language.pk',
@@ -37,7 +41,10 @@ class LanguageLevelSerializer(serializers.ModelSerializer):
 
 
 class VacancySerializer(serializers.ModelSerializer):
-    """Сериализатор для вакансий."""
+    """
+    Сериализатор для вакансий.
+    """
+
     author = serializers.PrimaryKeyRelatedField(read_only=True)
     language = LanguageLevelSerializer(many=True)
     created = serializers.DateTimeField(format='%Y-%m-%d', input_formats=None)
@@ -68,7 +75,7 @@ class VacancySerializer(serializers.ModelSerializer):
             "language",
         )
 
-    def validate_title_cv(self, value):
+    def validate_title_vacancy(self, value):
         if match(r'^[-+]?[0-9]+$', value):
             raise ValidationError("Некорректное название вакансии.")
         return value
@@ -99,6 +106,10 @@ class VacancySerializer(serializers.ModelSerializer):
 
 
 class VacancyResponseSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для статуса кандидата.
+    """
+    
     status = DisplayChoiceField(choices=VacancyResponse.STATUS)
 
     class Meta:
