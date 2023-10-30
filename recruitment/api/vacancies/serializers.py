@@ -1,10 +1,10 @@
 from re import match
-from rest_framework import serializers
 
-from rest_framework.serializers import ValidationError
-
-from vacancies.models import Vacancy, LanguageLevel, VacancyResponse, Language, Applicant
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
+from rest_framework.serializers import ValidationError
+from vacancies.models import (Applicant, Language, LanguageLevel, Vacancy,
+                              VacancyResponse)
 
 User = get_user_model()
 

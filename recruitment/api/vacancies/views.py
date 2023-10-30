@@ -33,12 +33,14 @@ class ResponsesViewSet(viewsets.ModelViewSet):
     filterset_class = ApplicantFilter
 
     def get_queryset(self):
-        if self.action in ('list', 'retrieve', 'destroy'):
-            return Applicant.objects.filter(vacancy_responses__vacancy__id=self.kwargs['vacancy_pk'])
-        return VacancyResponse.objects.filter(vacancy__id=self.kwargs['vacancy_pk'])
+        if self.action in ("list", "retrieve", "destroy"):
+            return Applicant.objects.filter(
+                vacancy_responses__vacancy__id=self.kwargs["vacancy_pk"]
+            )
+        return VacancyResponse.objects.filter(vacancy__id=self.kwargs["vacancy_pk"])
 
     def get_serializer_class(self):
-        if self.action in ('list', 'retrieve', 'destroy'):
+        if self.action in ("list", "retrieve", "destroy"):
             return VacancyApplicantSerializer
         return VacancyResponseSerializer
 
@@ -46,8 +48,8 @@ class ResponsesViewSet(viewsets.ModelViewSet):
         """
         Добавляет соискателя к вакансии.
         """
-        request.data['vacancy'] = self.kwargs['vacancy_pk']
-        request.data['status'] = VacancyResponse.STATUS[1][1]
+        request.data["vacancy"] = self.kwargs["vacancy_pk"]
+        request.data["status"] = VacancyResponse.STATUS[1][1]
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -65,14 +67,14 @@ class ResponsesViewSet(viewsets.ModelViewSet):
         Удаляет соискателя из вакансии.
         """
         obj = VacancyResponse.objects.filter(
-            vacancy__id=self.kwargs['vacancy_pk'],
-            applicant__id=self.kwargs['pk'],
+            vacancy__id=self.kwargs["vacancy_pk"],
+            applicant__id=self.kwargs["pk"],
         )
         if obj.exists():
             obj.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(
-            {'errors': 'not in added'},
+            {"errors": "not in added"},
             status=status.HTTP_400_BAD_REQUEST,
         )
 
@@ -80,8 +82,8 @@ class ResponsesViewSet(viewsets.ModelViewSet):
         """
         Обновляет статус отклика на вакансию.
         """
-        request.data['vacancy'] = vacancy_pk
-        request.data['applicant'] = pk
+        request.data["vacancy"] = vacancy_pk
+        request.data["applicant"] = pk
         obj = get_object_or_404(
             VacancyResponse,
             vacancy__id=vacancy_pk,
@@ -99,17 +101,17 @@ class ResponsesViewSet(viewsets.ModelViewSet):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=["post"])
     def send_mail(self, request, pk=None):
-        '''Отправляет письмо соискателю.'''
-        serializer = SendMailSerializer(context={'request': request})
-        subject = serializer.validated_data['subject']
-        body = serializer.validated_data['body']
+        """Отправляет письмо соискателю."""
+        serializer = SendMailSerializer(context={"request": request})
+        subject = serializer.validated_data["subject"]
+        body = serializer.validated_data["body"]
         send_mail(
             subject,
             body,
             None,
-            [serializer.validated_data['email']],
+            [serializer.validated_data["email"]],
             fail_silently=True,
         )
         return Response(status=status.HTTP_200_OK)

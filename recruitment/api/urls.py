@@ -1,5 +1,4 @@
 from django.urls import include, path
-from rest_framework import routers
 from .vacancies.views import VacancyViewSet, ResponsesViewSet
 from .cities.views import CityViewSet
 from .applicants.views import ApplicantViewSet
@@ -17,8 +16,16 @@ v1_router.register('cities', CityViewSet, basename='cities')
 v1_router.register('applicants', ApplicantViewSet, basename='applicants')
 v1_router.register('languages', LanguageViewSet, basename='languages')
 
-vacancies_router = routers.NestedSimpleRouter(v1_router, 'vacancies', lookup='vacancy')
-vacancies_router.register('responses', ResponsesViewSet, basename='vacancy-responses')
+vacancies_router = routers.NestedSimpleRouter(
+    v1_router,
+    'vacancies',
+    lookup='vacancy',
+)
+vacancies_router.register(
+    'responses',
+    ResponsesViewSet,
+    basename='vacancy-responses',
+)
 
 urlpatterns = [
     path('', include(v1_router.urls)),

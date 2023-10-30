@@ -7,7 +7,7 @@ class VacancyFilter(filters.FilterSet):
     """
     Фильтры для вакансий.
     """
-    
+
     city = filters.CharFilter(
         field_name='city',
     )
