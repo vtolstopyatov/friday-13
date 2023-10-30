@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+from django.core.mail import send_mail
+=======
 from rest_framework import viewsets, status
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
@@ -7,7 +10,18 @@ from .serializers import (VacancySerializer, VacancyResponseSerializer)
 from .filters import VacancyFilter
 from ..applicants.serializers import VacancyApplicantSerializer
 from ..applicants.filters import ApplicantFilter
+>>>>>>> c65f10eeeebbb0f90bff9ae618097f4ed8ba16df
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from vacancies.models import Applicant, Vacancy, VacancyResponse
+
+from ..applicants.serializers import VacancyApplicantSerializer
+from .filters import VacancyFilter
+from .serializers import (SendMailSerializer, VacancyResponseSerializer,
+                          VacancySerializer)
 
 
 class VacancyViewSet(viewsets.ModelViewSet):
@@ -95,3 +109,18 @@ class ResponsesViewSet(viewsets.ModelViewSet):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST,
         )
+
+    @action(detail=True, methods=['post'])
+    def send_mail(self, request, pk=None):
+        '''Отправляет письмо соискателю.'''
+        serializer = SendMailSerializer(context={'request': request})
+        subject = serializer.validated_data['subject']
+        body = serializer.validated_data['body']
+        send_mail(
+            subject,
+            body,
+            None,
+            [serializer.validated_data['email']],
+            fail_silently=True,
+        )
+        return Response(status=status.HTTP_200_OK)

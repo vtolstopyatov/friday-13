@@ -115,3 +115,9 @@ class VacancyResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = VacancyResponse
         fields = ['applicant', 'vacancy', 'status']
+
+
+class SendMailSerializer(serializers.Serializer):
+    to = serializers.EmailField()
+    subject = serializers.CharField(max_length=200)
+    body = serializers.CharField(max_length=30000)

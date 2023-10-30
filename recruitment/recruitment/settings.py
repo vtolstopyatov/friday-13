@@ -21,7 +21,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost',
                  '127.0.0.1',
                  '130.193.38.180',
-                 'team-13.nomoredomainsrocks.ru']
+                 'team-13.nomoredomainsrocks.ru',
+                 'aboba.pro']
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
