@@ -28,9 +28,9 @@ class DisplayChoiceField(serializers.ChoiceField):
 class LanguageLevelSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(
         queryset=Language.objects.all(),
-        source='language.id',
+        source='language.pk',
     )
-    language = serializers.ReadOnlyField(source='student.language')
+    language = serializers.ReadOnlyField(source='language.language')
 
     class Meta:
         model = LanguageLevel
@@ -114,10 +114,20 @@ class VacancySerializer(serializers.ModelSerializer):
             raise ValidationError("Некорректное название вакансии.")
         return value
 
+    def language_create(self, vacancy, languages):
+        lang_level = [LanguageLevel(
+            vacancy=vacancy,
+            language=i['language']['pk'],
+            level=i['level'],
+        ) for i in languages]
+        LanguageLevel.objects.bulk_create(lang_level)
+
     def create(self, validated_data):
         # author = self.context.get('request').user
         author = User.objects.all()[0]  # авторизации на фронте нет
+        languages = validated_data.pop('language')
         vacancy = Vacancy.objects.create(author=author, **validated_data)
+        self.language_create(vacancy, languages)
         return vacancy
 
 
