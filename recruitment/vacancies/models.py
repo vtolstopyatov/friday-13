@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 def get_sentinel_user():
     return User.objects.get_or_create(username="deleted")[0]
 
@@ -30,7 +31,7 @@ class Expirience(models.Model):
     company = models.CharField(max_length=150, verbose_name=("Компания"))
     title = models.CharField(max_length=150, verbose_name=("Должность"))
     description = models.CharField(
-        max_length=150, verbose_name=("обязанности")
+        max_length=1500, verbose_name=("обязанности")
     )
 
 
@@ -131,25 +132,6 @@ class LanguageLevel(models.Model):
         unique_together = ("language", "vacancy")
 
 
-class Cv(Params):
-    """
-    Резюме кандидата.
-    """
-
-    title = models.CharField(
-        max_length=200, null=False, verbose_name=("Название")
-    )
-    city = models.ForeignKey(
-        City, on_delete=models.PROTECT, related_name="cv", verbose_name="Город"
-    )
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, verbose_name=("Соискатель")
-    )
-    optional_description = models.TextField(verbose_name=("Немного о себе"))
-    salary = models.IntegerField()
-    expirience = models.ForeignKey(Expirience, on_delete=models.PROTECT)
-
-
 class Course(models.Model):
     """
     Название пройденного курса.
@@ -188,10 +170,8 @@ class Applicant(Params):
     )
     salary = models.IntegerField(verbose_name="Зарплата")
     optional_description = models.TextField(verbose_name=("Немного о себе"))
-    exp = models.ForeignKey(
+    exp = models.ManyToManyField(
         Expirience,
-        on_delete=models.PROTECT,
-        null=True,
         verbose_name="Опыт работы",
     )
     response_base_count = models.PositiveSmallIntegerField()

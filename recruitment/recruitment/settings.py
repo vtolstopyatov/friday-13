@@ -18,7 +18,6 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "130.193.38.180",
-    "team-13.nomoredomainsrocks.ru",
     "aboba.pro",
 ]
 
@@ -28,8 +27,8 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://team-13.nomoredomainsrocks.ru",
     "https://aboba.pro",
+    "https://hakaton-tracker-team-13.vercel.app",
 ]
 
 INSTALLED_APPS = [

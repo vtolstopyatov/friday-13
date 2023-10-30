@@ -35,7 +35,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
     work_status = serializers.CharField(source="get_work_status_display")
     edu_status = serializers.CharField(source="get_edu_status_display")
     grade = serializers.CharField(source="get_grade_display")
-    expirience = ExpirienceSerializer(source="exp")
+    expirience = ExpirienceSerializer(source="exp", many=True)
 
     class Meta:
         model = Applicant
