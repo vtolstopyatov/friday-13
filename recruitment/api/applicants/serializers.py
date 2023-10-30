@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from vacancies.models import Applicant, VacancyResponse, Expirience
+from vacancies.models import Applicant, Expirience, VacancyResponse
 
 
 class ExpirienceSerializer(serializers.ModelSerializer):
