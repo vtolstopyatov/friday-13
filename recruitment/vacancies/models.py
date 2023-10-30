@@ -80,8 +80,8 @@ class LanguageLevel(models.Model):
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE, related_name='language')
     level = models.CharField(max_length=2, choices=LANG_LVL)
 
-    # class Meta:
-    #     unique_together = ('language', 'vacancy')
+    class Meta:
+        unique_together = ('language', 'vacancy', 'level')
 
 
 class Cv(Params):
