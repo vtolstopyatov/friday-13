@@ -131,7 +131,7 @@ class VacancySerializer(serializers.ModelSerializer):
         return vacancy
 
     def update(self, vacancy, validated_data):
-        if languages := validated_data.pop('language'):
+        if languages := validated_data.pop('language', False):  # ЛОВИ МОРЖА!!!
             LanguageLevel.objects.filter(vacancy=vacancy).delete()
             self.language_create(vacancy, languages)
         for attr, value in validated_data.items():
