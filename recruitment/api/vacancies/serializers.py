@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from rest_framework.serializers import ValidationError
 
-from vacancies.models import Cv, Vacancy, LanguageLevel, Expirience, Applicant, VacancyResponse, Language
+from vacancies.models import Vacancy, LanguageLevel, VacancyResponse, Language
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -18,7 +18,6 @@ class DisplayChoiceField(serializers.ChoiceField):
     def to_internal_value(self, data):
         if data == '' and self.allow_blank:
             return ''
-
         for key, val in self._choices.items():
             if val == data:
                 return key
@@ -35,46 +34,6 @@ class LanguageLevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = LanguageLevel
         fields = ['id', 'language', 'level']
-
-
-class CvCreateSerializer(serializers.ModelSerializer):
-    """Кастомный сериализатор для создания резюме."""
-
-    class Meta:
-        model = Cv
-        fields = (
-            "title",
-            "optional_description",
-            "city",
-            "salary",
-            "experience",
-            "currency",
-        )
-
-    def validate_name_cv(self, value):
-        if match(r'^[-+]?[0-9]+$', value):
-            raise ValidationError("Некорректное название резюме.")
-        return value
-
-    def create(self, validated_data):
-        author = self.context.get('request').user
-        cv = Cv.objects.create(author=author, **validated_data)
-        return cv
-
-
-class CvSerializer(serializers.ModelSerializer):
-    """Кастомный сериализатор для работы с резюме."""
-
-    class Meta:
-        model = Cv
-        fields = (
-            "title",
-            "optional_description",
-            "city",
-            "salary",
-            "experience",
-            "currency",
-        )
 
 
 class VacancySerializer(serializers.ModelSerializer):

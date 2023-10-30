@@ -4,24 +4,10 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 
 from vacancies.models import Cv, Vacancy, Applicant, VacancyResponse
-from .serializers import (CvCreateSerializer, CvSerializer,
-                          VacancySerializer, VacancyResponseSerializer)
-from .filters import CvFilter, VacancyFilter
-from ..applicants.serializers import ApplicantSerializer, VacancyApplicantSerializer
+from .serializers import (VacancySerializer, VacancyResponseSerializer)
+from .filters import VacancyFilter
+from ..applicants.serializers import VacancyApplicantSerializer
 from django.shortcuts import get_object_or_404
-
-
-class CvViewSet(viewsets.ModelViewSet):
-
-    queryset = Cv.objects.all()
-    serializer_class = CvSerializer
-    filter_backends = (DjangoFilterBackend, )
-    filterset_class = CvFilter
-
-    def get_serializer_class(self):
-        if self.action in ('list', 'retrieve'):
-            return CvSerializer
-        return CvCreateSerializer
 
 
 class VacancyViewSet(viewsets.ModelViewSet):

@@ -14,14 +14,6 @@ class ExpirienceSerializer(serializers.ModelSerializer):
         ]
 
 
-class VacancyResponseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = VacancyResponse
-        fields = [
-            'status'
-        ]
-
-
 class ApplicantSerializer(serializers.ModelSerializer):
     '''Сериалайзер соискателей.'''
     first_name = serializers.ReadOnlyField(source='student.first_name')
