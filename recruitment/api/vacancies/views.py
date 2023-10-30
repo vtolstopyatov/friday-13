@@ -9,8 +9,11 @@ from vacancies.models import Applicant, Vacancy, VacancyResponse
 from ..applicants.filters import ApplicantFilter
 from ..applicants.serializers import VacancyApplicantSerializer
 from .filters import VacancyFilter
-from .serializers import (SendMailSerializer, VacancyResponseSerializer,
-                          VacancySerializer)
+from .serializers import (
+    SendMailSerializer,
+    VacancyResponseSerializer,
+    VacancySerializer,
+)
 
 
 class VacancyViewSet(viewsets.ModelViewSet):
@@ -37,7 +40,9 @@ class ResponsesViewSet(viewsets.ModelViewSet):
             return Applicant.objects.filter(
                 vacancy_responses__vacancy__id=self.kwargs["vacancy_pk"]
             )
-        return VacancyResponse.objects.filter(vacancy__id=self.kwargs["vacancy_pk"])
+        return VacancyResponse.objects.filter(
+            vacancy__id=self.kwargs["vacancy_pk"]
+        )
 
     def get_serializer_class(self):
         if self.action in ("list", "retrieve", "destroy"):
@@ -78,7 +83,9 @@ class ResponsesViewSet(viewsets.ModelViewSet):
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    def partial_update(self, request, vacancy_pk=None, pk=None, *args, **kwargs):
+    def partial_update(
+        self, request, vacancy_pk=None, pk=None, *args, **kwargs
+    ):
         """
         Обновляет статус отклика на вакансию.
         """

@@ -11,47 +11,40 @@ from rest_framework_nested import routers
 
 v1_router = routers.SimpleRouter()
 
-v1_router.register('vacancies', VacancyViewSet, basename='vacancies')
-v1_router.register('cities', CityViewSet, basename='cities')
-v1_router.register('applicants', ApplicantViewSet, basename='applicants')
-v1_router.register('languages', LanguageViewSet, basename='languages')
+v1_router.register("vacancies", VacancyViewSet, basename="vacancies")
+v1_router.register("cities", CityViewSet, basename="cities")
+v1_router.register("applicants", ApplicantViewSet, basename="applicants")
+v1_router.register("languages", LanguageViewSet, basename="languages")
 
 vacancies_router = routers.NestedSimpleRouter(
     v1_router,
-    'vacancies',
-    lookup='vacancy',
+    "vacancies",
+    lookup="vacancy",
 )
 vacancies_router.register(
-    'responses',
+    "responses",
     ResponsesViewSet,
-    basename='vacancy-responses',
+    basename="vacancy-responses",
+)
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Friday-13 API",
+        default_version="v1",
+        description="Документация для API команды Friday-13",
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
 
 urlpatterns = [
-    path('', include(v1_router.urls)),
-    path('', include(vacancies_router.urls)),
-]
-
-schema_view = get_schema_view(
-   openapi.Info(
-      title="Friday-13 API",
-      default_version='v1',
-      description="Документация для API команды Friday-13",
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
-)
-
-urlpatterns += [
-    path('swagger<format>/',
-         schema_view.without_ui(cache_timeout=0),
-         name='schema-json'),
-    path('swagger/', schema_view.with_ui(
-         'swagger', cache_timeout=0),
-         name='schema-swagger-ui',),
-    path('redoc/',
-         schema_view.with_ui('redoc', cache_timeout=0),
-         name='schema-redoc'),
+    path("", include(v1_router.urls)),
+    path("", include(vacancies_router.urls)),
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

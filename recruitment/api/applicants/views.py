@@ -10,8 +10,8 @@ class ApplicantViewSet(viewsets.ReadOnlyModelViewSet):
     """
     Viewset соискателей.
     """
-    
+
     queryset = Applicant.objects.all()
     serializer_class = ApplicantSerializer
-    filter_backends = (DjangoFilterBackend, )
+    filter_backends = (DjangoFilterBackend,)
     filterset_class = ApplicantFilter

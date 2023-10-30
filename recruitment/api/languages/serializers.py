@@ -9,4 +9,4 @@ class LanguageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Language
-        fields = ('id', 'language')
+        fields = ("id", "language")

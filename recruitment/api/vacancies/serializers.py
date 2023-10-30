@@ -3,25 +3,30 @@ from re import match
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
-from vacancies.models import (Applicant, Language, LanguageLevel, Vacancy,
-                              VacancyResponse)
+from vacancies.models import (
+    Applicant,
+    Language,
+    LanguageLevel,
+    Vacancy,
+    VacancyResponse,
+)
 
 User = get_user_model()
 
 
 class DisplayChoiceField(serializers.ChoiceField):
     def to_representation(self, obj):
-        if obj == '' and self.allow_blank:
+        if obj == "" and self.allow_blank:
             return obj
         return self._choices[obj]
 
     def to_internal_value(self, data):
-        if data == '' and self.allow_blank:
-            return ''
+        if data == "" and self.allow_blank:
+            return ""
         for key, val in self._choices.items():
             if val == data:
                 return key
-        self.fail('invalid_choice', input=data)
+        self.fail("invalid_choice", input=data)
 
 
 class LanguageLevelSerializer(serializers.ModelSerializer):
@@ -31,13 +36,13 @@ class LanguageLevelSerializer(serializers.ModelSerializer):
 
     id = serializers.PrimaryKeyRelatedField(
         queryset=Language.objects.all(),
-        source='language.pk',
+        source="language.pk",
     )
-    language = serializers.ReadOnlyField(source='language.language')
+    language = serializers.ReadOnlyField(source="language.language")
 
     class Meta:
         model = LanguageLevel
-        fields = ['id', 'language', 'level']
+        fields = ["id", "language", "level"]
 
 
 class VacancySerializer(serializers.ModelSerializer):
@@ -47,7 +52,7 @@ class VacancySerializer(serializers.ModelSerializer):
 
     author = serializers.PrimaryKeyRelatedField(read_only=True)
     language = LanguageLevelSerializer(many=True)
-    created = serializers.DateTimeField(format='%Y-%m-%d', input_formats=None)
+    created = serializers.DateTimeField(format="%Y-%m-%d", input_formats=None)
     response_count = serializers.SerializerMethodField()
     suitable_candidates_count = serializers.SerializerMethodField()
 
@@ -80,28 +85,31 @@ class VacancySerializer(serializers.ModelSerializer):
         )
 
     def validate_title_vacancy(self, value):
-        if match(r'^[-+]?[0-9]+$', value):
+        if match(r"^[-+]?[0-9]+$", value):
             raise ValidationError("Некорректное название вакансии.")
         return value
 
     def language_create(self, vacancy, languages):
-        lang_level = [LanguageLevel(
-            vacancy=vacancy,
-            language=i['language']['pk'],
-            level=i['level'],
-        ) for i in languages]
+        lang_level = [
+            LanguageLevel(
+                vacancy=vacancy,
+                language=i["language"]["pk"],
+                level=i["level"],
+            )
+            for i in languages
+        ]
         LanguageLevel.objects.bulk_create(lang_level)
 
     def create(self, validated_data):
         # author = self.context.get('request').user
         author = User.objects.all()[0]  # авторизации на фронте нет
-        languages = validated_data.pop('language')
+        languages = validated_data.pop("language")
         vacancy = Vacancy.objects.create(author=author, **validated_data)
         self.language_create(vacancy, languages)
         return vacancy
 
     def update(self, vacancy, validated_data):
-        if languages := validated_data.pop('language', False):  # ЛОВИ МОРЖА!!!
+        if languages := validated_data.pop("language", False):  # ЛОВИ МОРЖА!!!
             LanguageLevel.objects.filter(vacancy=vacancy).delete()
             self.language_create(vacancy, languages)
         for attr, value in validated_data.items():
@@ -130,7 +138,7 @@ class VacancyResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VacancyResponse
-        fields = ['applicant', 'vacancy', 'status']
+        fields = ["applicant", "vacancy", "status"]
 
 
 class SendMailSerializer(serializers.Serializer):

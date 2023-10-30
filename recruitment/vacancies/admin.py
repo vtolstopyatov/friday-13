@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Vacancy, City, Language, LanguageLevel, Applicant, Course, VacancyResponse, Expirience
+
+from .models import (Applicant, City, Course, Expirience, Language,
+                     LanguageLevel, Vacancy, VacancyResponse)
 
 admin.site.register(Vacancy)
 admin.site.register(City)

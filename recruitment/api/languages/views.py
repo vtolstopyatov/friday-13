@@ -5,5 +5,9 @@ from .serializers import LanguageSerializer
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Вьюсет разговорных языков.
+    """
+
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer

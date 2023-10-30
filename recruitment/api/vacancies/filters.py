@@ -9,29 +9,27 @@ class VacancyFilter(filters.FilterSet):
     """
 
     city = filters.CharFilter(
-        field_name='city',
+        field_name="city",
     )
-    grade = filters.ChoiceFilter(
-        choices=GRADE
-    )
+    grade = filters.ChoiceFilter(choices=GRADE)
     is_remote_work = filters.CharFilter(
-        field_name='is_remote_work',
+        field_name="is_remote_work",
     )
     min_wage = filters.NumberFilter(
-        field_name='min_wage',
+        field_name="min_wage",
     )
     max_wage = filters.NumberFilter(
-        field_name='max_wage',
+        field_name="max_wage",
     )
     is_active = filters.BooleanFilter()
 
     class Meta:
         model = Vacancy
         fields = [
-            'grade',
-            'city',
-            'is_remote_work',
-            'min_wage',
-            'max_wage',
-            'is_active',
+            "grade",
+            "city",
+            "is_remote_work",
+            "min_wage",
+            "max_wage",
+            "is_active",
         ]
