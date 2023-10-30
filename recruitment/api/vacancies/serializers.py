@@ -130,6 +130,14 @@ class VacancySerializer(serializers.ModelSerializer):
         self.language_create(vacancy, languages)
         return vacancy
 
+    def update(self, vacancy, validated_data):
+        if languages := validated_data.pop('language'):
+            LanguageLevel.objects.filter(vacancy=vacancy).delete()
+            self.language_create(vacancy, languages)
+        for attr, value in validated_data.items():
+            setattr(vacancy, attr, value)
+        return vacancy
+
 
 class VacancyResponseSerializer(serializers.ModelSerializer):
     status = DisplayChoiceField(choices=VacancyResponse.STATUS)
