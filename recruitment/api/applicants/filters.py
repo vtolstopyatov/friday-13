@@ -4,7 +4,7 @@ from vacancies.models import Applicant
 
 class ApplicantFilter(filters.FilterSet):
     """Фильтры для соискателей."""
-    
+
     edu_status = filters.ChoiceFilter(
         choices = ch.EDU_STATUS
     )
@@ -18,13 +18,18 @@ class ApplicantFilter(filters.FilterSet):
         field_name='is_winner',
     )
     province = filters.CharFilter(
-        field_name='province__name'
+        field_name='province__name',
+        lookup_expr='icontains',
     )
     expirience = filters.DateFilter(
         field_name='expirience__date_start'
     )
     work_format = filters.ChoiceFilter(
         choices = ch.WORK_FORMAT
+    )
+    course = filters.CharFilter(
+        field_name='course__name',
+        lookup_expr='icontains',
     )
     class Meta:
         model = Applicant
