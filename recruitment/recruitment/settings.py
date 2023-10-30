@@ -27,6 +27,7 @@ ALLOWED_HOSTS = ['localhost',
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://team-13.nomoredomainsrocks.ru",
+    "https://aboba.pro/",
 ]
 
 # Application definition
