@@ -81,7 +81,7 @@ class LanguageLevel(models.Model):
     level = models.CharField(max_length=2, choices=LANG_LVL)
 
     class Meta:
-        unique_together = ('language', 'vacancy', 'level')
+        unique_together = ('language', 'vacancy')
 
 
 class Cv(Params):
