@@ -8,11 +8,9 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = (
-    "django-insecure-g4$9ub=hdp)+3$@qqy&c0r#s6fr2_!&+&vg&)m4vxjek#*mwli"
-)
+SECRET_KEY = os.getenv("DJANGO_KEY", default='djangosupersecretkey')
 
-DEBUG = True
+DEBUG = (os.getenv('DEBUG', default='False') == 'True')
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -41,9 +39,9 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_yasg",
     "corsheaders",
-    "users.apps.UsersConfig",
-    "api.apps.ApiConfig",
-    "vacancies.apps.VacanciesConfig",
+    "users",
+    "api",
+    "vacancies",
 ]
 
 MIDDLEWARE = [
@@ -77,13 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "recruitment.wsgi.application"
 
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 DATABASES = {
     "default": {
