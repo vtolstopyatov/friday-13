@@ -124,7 +124,6 @@ class VacancySerializer(serializers.ModelSerializer):
             grade=vacancy.grade,
             work_format=vacancy.work_format,
             salary__lte=vacancy.max_wage,
-            province=vacancy.city,
         ).count()
         return count
 
